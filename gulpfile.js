@@ -59,7 +59,7 @@ function fileToURL(fileName){
 
         case '.json':
             mime='application/json';
-            fileData=Buffer.from(fileData.toString().replace(fileRegEx,   (match, p1, offset, string) => {
+            fileData=Buffer.from(fileData.toString().replace(fileRegEx, (match, p1, offset, string) => {
                                                             const fileName = buildDir+path.normalize(p1)
                                                             console.log("     Inlined inside json "+fileName);
 

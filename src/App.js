@@ -11,13 +11,22 @@ function selectedMenuReducer(state, action, payload) {
 
 function formFsReducer(state, action, payload){
     switch (action){
-        case 'close':
+        case 'close':{
             const id=payload;
             const formFs=state;
             for (const formF of formFs){
                 if (formF.id===id) formF.open=false;
             }
             return formFs;
+        }
+        case 'open':{
+            const id=payload;
+            const formFs=state;
+            for (const formF of formFs){
+                if (formF.id===id) formF.open=true;
+            }
+            return formFs;
+        }
         default:
             return state;
     }

@@ -10,8 +10,6 @@
 
 # production
 /build
-/src/assets/fomantic/dist
-
 # misc
 .DS_Store
 .env.local
