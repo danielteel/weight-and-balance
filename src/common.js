@@ -51,4 +51,17 @@ function displayVal(number, decimal=0){
     return formatted;
 }
 
-export {calcArm, realNumber, formatArm, formatWeight, formatMoment, isAboutEquals, displayVal, momentSimplifier};
+function getUniqueId(arrayOfObjs, property){
+    let newKey = 0;
+    try {
+        for (const item of arrayOfObjs){
+            let currentKey = Number(item[property]);
+            if (!isFinite(currentKey)) currentKey = 0;
+            if (newKey<=currentKey) newKey = currentKey+1;
+        }
+    } catch {
+    }
+    return newKey;
+}
+
+export {calcArm, realNumber, formatArm, formatWeight, formatMoment, isAboutEquals, displayVal, getUniqueId, momentSimplifier};

@@ -2,7 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Container, Header, Segment } from 'semantic-ui-react';
 import { useStoredReducer } from '@dteel/use-stored-reducer';
 import WABMenu from './components/WABMenu';
+import FormFs from './components/FormFs';
 
+const sampleFormFs=
+[
+    {key: 1, open: true, mission:".,"},
+    {key: 2, open: true, mission:"NTAC"}
+];
 
 function selectedMenuReducer(state, action, payload) {
     return {page: action, ...payload};
@@ -27,6 +33,14 @@ function formFsReducer(state, action, payload){
             }
             return formFs;
         }
+        case 'delete':{
+            const id=payload;    
+            const formFs=state;        
+            return formFs.filter( formF => !(formF.id===id) );
+        }
+        case 'create':{
+            return [...state, payload];
+        }
         default:
             return state;
     }
@@ -34,7 +48,14 @@ function formFsReducer(state, action, payload){
 
 function App() {
     const [selectedMenu, {current: selectedMenuDispatch}] = useStoredReducer('wab-menu', selectedMenuReducer, {page: 'formfs'}, sessionStorage, 1000)
-    const [formFs, {current: formFsDispatch}] = useStoredReducer('wab-formfs', formFsReducer, [{id: 1, open: true, mission:""},{id: 2, open: true, mission:"NTAC"}], localStorage);
+    const [formFs, {current: formFsDispatch}] = useStoredReducer('wab-formfs', formFsReducer, [], localStorage);
+
+    let pageToShow=null;
+
+    if (selectedMenu?.page==='formfs'){
+        pageToShow = <FormFs formFs={formFs} formFsDispatch={formFsDispatch}/>
+    }else{
+    }
 
     return (
         <Container>
@@ -43,7 +64,9 @@ function App() {
                 <Header as='h6' textAlign='center' style={{color:'#00000033'}}>Reference Use Only</Header>
             </Segment>
             <WABMenu selectedMenu={selectedMenu} selectedMenuDispatch={selectedMenuDispatch} formFs={formFs} formFsDispatch={formFsDispatch}/>
-            <Segment attached="bottom" secondary>{}</Segment>
+            <Segment attached="bottom" secondary>
+                {pageToShow}
+            </Segment>
         </Container>
     );
 }
