@@ -39,7 +39,11 @@ function formFsReducer(state, action, payload){
             return formFs.filter( formF => !(formF.id===id) );
         }
         case 'create':{
-            return [...state, payload];
+            if (state){
+                return [...state, payload];
+            }else{
+                return [payload];
+            }
         }
         default:
             return state;

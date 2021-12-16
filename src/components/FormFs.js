@@ -73,7 +73,7 @@ export default function FormFs({formFs, formFsDispatch}){
           </Table.Header>
 
           <Table.Body>
-            {formFs.map( formF => {
+            {formFs?.map( formF => {
                 return (
                     <Table.Row key={formF.id} onClick={(e)=>{
                         formFsDispatch('open', formF.id);
