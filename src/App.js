@@ -2,13 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Container, Header, Segment } from 'semantic-ui-react';
 import { useStoredReducer } from '@dteel/use-stored-reducer';
 import WABMenu from './components/WABMenu';
+import FormF from './components/FormF';
 import FormFs from './components/FormFs';
+import FormFMenu from './components/FormFMenu';
 
-const sampleFormFs=
-[
-    {key: 1, open: true, mission:".,"},
-    {key: 2, open: true, mission:"NTAC"}
-];
+const menuItems=[
+    {page:'formfs', title: 'Form Fs'},
+    {page:'aircraft', title:'Aircraft'},
+    {page:'standardkit', title:'Kit Presets'},
+    {page:'standardcargo', title:'Cargo Presets'}
+]
 
 function selectedMenuReducer(state, action, payload) {
     return {page: action, ...payload};
@@ -54,20 +57,24 @@ function App() {
     const [selectedMenu, {current: selectedMenuDispatch}] = useStoredReducer('wab-menu', selectedMenuReducer, {page: 'formfs'}, sessionStorage, 1000)
     const [formFs, {current: formFsDispatch}] = useStoredReducer('wab-formfs', formFsReducer, [], localStorage);
 
+    const goHome = () => selectedMenuDispatch('formfs');
+
     let pageToShow=null;
 
     if (selectedMenu?.page==='formfs'){
         pageToShow = <FormFs formFs={formFs} formFsDispatch={formFsDispatch}/>
-    }else{
+    }else if (selectedMenu?.page==='formf'){
+        pageToShow = <FormF id={selectedMenu?.id} formFs={formFs} formFsDispatch={formFsDispatch} goHome={goHome}/>
     }
 
-    return (
+    return ( 
         <Container>
             <Segment attached="top">
                 <Header as='h1' textAlign="center">WAB</Header>
                 <Header as='h6' textAlign='center' style={{color:'#00000033'}}>Reference Use Only</Header>
             </Segment>
-            <WABMenu selectedMenu={selectedMenu} selectedMenuDispatch={selectedMenuDispatch} formFs={formFs} formFsDispatch={formFsDispatch}/>
+            <WABMenu menuItems={menuItems} selectedMenu={selectedMenu} selectedMenuDispatch={selectedMenuDispatch}/>
+            <FormFMenu menuItems={menuItems} selectedMenu={selectedMenu} selectedMenuDispatch={selectedMenuDispatch} formFs={formFs} formFsDispatch={formFsDispatch}/>
             <Segment attached="bottom" secondary>
                 {pageToShow}
             </Segment>

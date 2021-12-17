@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": false,
   "dependencies": {
+    "@dteel/use-stored-reducer": "^0.0.4",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -12,11 +13,11 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-is": "^17.0.2",
-    "react-scripts": "4.0.3",
-    "@dteel/use-stored-reducer": "^0.0.4",
+    "react-scripts": "^4.0.3",
     "semantic-ui-react": "^2.0.3",
     "styled-components": "^5.3.0"
   },
+  "devDependencies": {},
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build && gulp postbuild && gulp rename",
