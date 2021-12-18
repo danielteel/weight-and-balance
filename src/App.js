@@ -5,6 +5,11 @@ import WABMenu from './components/WABMenu';
 import FormF from './components/FormF';
 import FormFs from './components/FormFs';
 import FormFMenu from './components/FormFMenu';
+import Aircraft from './components/Aircraft';
+
+import formFsReducer from './reducers/formFsReducer';
+import aircraftReducer from './reducers/aircraftReducer';
+import selectedMenuReducer from './reducers/selectedMenuReducer';
 
 const menuItems=[
     {page:'formfs', title: 'Form Fs'},
@@ -13,58 +18,26 @@ const menuItems=[
     {page:'standardcargo', title:'Cargo Presets'}
 ]
 
-function selectedMenuReducer(state, action, payload) {
-    return {page: action, ...payload};
-}
 
 
-function formFsReducer(state, action, payload){
-    switch (action){
-        case 'close':{
-            const id=payload;
-            const formFs=state;
-            for (const formF of formFs){
-                if (formF.id===id) formF.open=false;
-            }
-            return formFs;
-        }
-        case 'open':{
-            const id=payload;
-            const formFs=state;
-            for (const formF of formFs){
-                if (formF.id===id) formF.open=true;
-            }
-            return formFs;
-        }
-        case 'delete':{
-            const id=payload;    
-            const formFs=state;        
-            return formFs.filter( formF => !(formF.id===id) );
-        }
-        case 'create':{
-            if (state){
-                return [...state, payload];
-            }else{
-                return [payload];
-            }
-        }
-        default:
-            return state;
-    }
-}
 
 function App() {
-    const [selectedMenu, {current: selectedMenuDispatch}] = useStoredReducer('wab-menu', selectedMenuReducer, {page: 'formfs'}, sessionStorage, 1000)
-    const [formFs, {current: formFsDispatch}] = useStoredReducer('wab-formfs', formFsReducer, [], localStorage);
+    const [selectedMenu, {current: selectedMenuDispatch}] = useStoredReducer('wab-menu', selectedMenuReducer, {page: 'formfs'}, sessionStorage, 500)
+    const [formFs, {current: formFsDispatch}] = useStoredReducer('wab-formfs', formFsReducer, [], localStorage, 500);
+    const [aircraft, {current: aircraftDispatch}] = useStoredReducer('wab-aircraft', aircraftReducer, [], localStorage, 500);
 
     const goHome = () => selectedMenuDispatch('formfs');
 
     let pageToShow=null;
 
     if (selectedMenu?.page==='formfs'){
-        pageToShow = <FormFs formFs={formFs} formFsDispatch={formFsDispatch}/>
+        pageToShow = <FormFs formFs={formFs} formFsDispatch={formFsDispatch} selectedMenuDispatch={selectedMenuDispatch}/>
     }else if (selectedMenu?.page==='formf'){
         pageToShow = <FormF id={selectedMenu?.id} formFs={formFs} formFsDispatch={formFsDispatch} goHome={goHome}/>
+    }else if (selectedMenu?.page==='aircraft'){
+        pageToShow=<Aircraft/>
+    }else{
+        selectedMenuDispatch('formfs');
     }
 
     return ( 
