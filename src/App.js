@@ -35,7 +35,7 @@ function App() {
     }else if (selectedMenu?.page==='formf'){
         pageToShow = <FormF id={selectedMenu?.id} formFs={formFs} formFsDispatch={formFsDispatch} goHome={goHome}/>
     }else if (selectedMenu?.page==='aircraft'){
-        pageToShow=<Aircraft/>
+        pageToShow=<Aircraft aircraft={aircraft} aircraftDispatch={aircraftDispatch}/>
     }else{
         selectedMenuDispatch('formfs');
     }
