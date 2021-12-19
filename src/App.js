@@ -24,7 +24,7 @@ const menuItems=[
 function App() {
     const [selectedMenu, {current: selectedMenuDispatch}] = useStoredReducer('wab-menu', selectedMenuReducer, {page: 'formfs'}, sessionStorage, 500)
     const [formFs, {current: formFsDispatch}] = useStoredReducer('wab-formfs', formFsReducer, [], localStorage, 500);
-    const [aircraft, {current: aircraftDispatch}] = useStoredReducer('wab-aircraft', aircraftReducer, [], localStorage, 500);
+    const [aircraft, {current: aircraftDispatch}] = useStoredReducer('wab-aircraft', aircraftReducer, [{id: 0, tail:'0024', weight: 36000, moment: 14101}], localStorage, 500);
 
     const goHome = () => selectedMenuDispatch('formfs');
 

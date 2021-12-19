@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": false,
   "dependencies": {
-    "@dteel/touch-input": "^0.0.3",
-    "@dteel/use-stored-reducer": "^0.0.4",
+    "@dteel/touch-input": "^0.0.5",
+    "@dteel/use-stored-reducer": "^0.0.5",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",

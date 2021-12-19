@@ -6,13 +6,13 @@ function realNumber(string){
     return real;
 }
 
-function calcArm(weight, moment){
-    return formatArm((formatMoment(moment)*momentSimplifier)/formatWeight(weight));
+function calcArm(weight, moment, divider=100){
+    return formatArm((formatMoment(moment)*momentSimplifier)/formatWeight(weight), divider);
 }
 
-function formatArm(arm){
+function formatArm(arm, divider=100){
     arm=realNumber(arm);
-    return Math.round(arm*100)/100;
+    return Math.round(arm*divider)/divider;
 }
 
 function formatWeight(weight){
@@ -64,4 +64,8 @@ function getUniqueId(arrayOfObjs, property){
     return newKey;
 }
 
-export {calcArm, realNumber, formatArm, formatWeight, formatMoment, isAboutEquals, displayVal, getUniqueId, momentSimplifier};
+function isGoodObject(obj){
+    return !(typeof obj!=='object' || Array.isArray(obj) || obj===null);
+}
+
+export {calcArm, realNumber, formatArm, formatWeight, formatMoment, isAboutEquals, displayVal, getUniqueId, isGoodObject, momentSimplifier};

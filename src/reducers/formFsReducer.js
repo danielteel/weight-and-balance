@@ -1,4 +1,40 @@
-export default function formFsReducer(state, action, payload){
+import { getUniqueId, isGoodObject } from "../common";
+
+function blankFormF(){
+    return {
+        created: (new Date()).toDateString(),
+        date: (new Date()).toDateString(),
+
+        open: false,
+
+        mission: "TRAINING",
+
+        aircraft: null,
+
+        crew:{
+            weight: 660,
+            moment: 157.5
+        },
+
+        kit:[],
+
+        cargo:[],
+
+        fuel:{
+            weight: 0,
+            fwdMATInstalled: false,
+            centerMATInstalled: false,
+            taxiTakeOffFuelBurn: 500,
+            landingFuel: 1500
+        }
+    };
+}
+
+
+export default function formFsReducer(state, action, payload, callback){
+
+    if (!Array.isArray(state)) state=[];
+
     switch (action){
         case 'close':{
             const id=payload;
@@ -17,16 +53,29 @@ export default function formFsReducer(state, action, payload){
             return formFs;
         }
         case 'delete':{
-            const id=payload;    
+            const id=typeof payload==='object' ? payload.id : payload;
             const formFs=state;        
             return formFs.filter( formF => !(formF.id===id) );
         }
-        case 'create':{
-            if (state){
-                return [...state, payload];
-            }else{
-                return [payload];
+        case 'update':{
+            const formFs=state;  
+            
+            for (const [index, element] of formFs.entries()){
+                if (element.id===payload.id){
+                    formFs[index]=payload;
+                    break;
+                }
             }
+            return formFs;
+        }
+        case 'create':{
+            let newFormF = payload;
+            if (!isGoodObject(newFormF))  newFormF=blankFormF();
+
+            newFormF.id=getUniqueId(state, 'id');
+            if (callback) setTimeout( ()=>callback(newFormF.id) , 0);
+
+            return [...state, newFormF];
         }
         default:
             return state;
