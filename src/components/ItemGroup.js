@@ -13,7 +13,7 @@ const inputStyle={style:{paddingLeft:'5px', paddingRight:'5px'}};
 
 
 
-export default function ItemGroup({items, itemsDispatch}){
+export default function ItemGroup({items, itemsDispatch, title}){
     const [deleteItemId, setDeleteItemId] = useState(null);
 
     let weightTotal=0, momentTotal=0, armTotal;
@@ -38,11 +38,14 @@ export default function ItemGroup({items, itemsDispatch}){
                             setDeleteItemId(null);
                         }}
             />
-            <Table unstackable  style={{maxWidth: '550px'}}>
-                <Table.Header>
+            <Table unstackable style={{maxWidth: '550px'}}>
+                <Table.Header className='stickyheader'>
                     <Table.Row>
                         <Table.HeaderCell colSpan='5'>
-                            <Button floated='left' icon='add' labelPosition='left' positive size='small' content='New item'  onClick={()=>itemsDispatch('create', null)}/>
+                            <div style={{display:'flex', alignItems:'center'}}>
+                                <Button icon='add' labelPosition='left' positive size='small' content='New item'  onClick={()=>itemsDispatch('create', null)}/>
+                                <div style={{flexGrow:'1', textAlign:'center', fontSize:'1.3em'}}>{title}</div>
+                            </div>
                         </Table.HeaderCell>
                     </Table.Row>
                     <Table.Row>
@@ -57,7 +60,7 @@ export default function ItemGroup({items, itemsDispatch}){
                     {
                         items?.length ?
                             items.map( item => (
-                                <Table.Row>
+                                <Table.Row key={item.id}>
                                     <Table.Cell style={noPadCell}>
                                         <TouchInput as={Input} value={item.name} onChange={(v)=>itemsDispatch('update', {...item, name: v})} fluid input={inputStyle}/>
                                     </Table.Cell>

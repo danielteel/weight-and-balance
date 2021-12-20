@@ -28,11 +28,14 @@ export default function FormFs({formFs, formFsDispatch, selectedMenuDispatch}){
                                 }}
             />
 
-            <Table selectable={formFs?.length} unstackable style={{maxWidth: '550px'}}>
-                <Table.Header>
+            <Table selectable={formFs?.length!==0} unstackable style={{maxWidth: '550px'}}>
+                <Table.Header className='stickyheader'>
                     <Table.Row>
                         <Table.HeaderCell colSpan='5'>
-                            <Button floated='left' icon='add' labelPosition='left' positive size='small' content='New Form F'  onClick={newFormAction}/>
+                            <div style={{display:'flex', alignItems:'center'}}>
+                                <Button icon='add' labelPosition='left' positive size='small' content='New Form F'  onClick={newFormAction}/>
+                                <div style={{flexGrow:'1', textAlign:'center', fontSize:'1.3em'}}>Form Fs</div>
+                            </div>
                         </Table.HeaderCell>
                     </Table.Row>
                     <Table.Row>
@@ -49,7 +52,7 @@ export default function FormFs({formFs, formFsDispatch, selectedMenuDispatch}){
                         formFs?.length?
                             formFs.map( formF => {
                                 return (
-                                    <Table.Row key={formF.id} onClick={(e)=>{
+                                    <Table.Row key={formF.id+formF.created} onClick={(e)=>{
                                         formFsDispatch('open', formF.id);
                                         selectedMenuDispatch('formf', {id: formF.id});
                                     }}>

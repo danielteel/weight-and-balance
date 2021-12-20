@@ -1,4 +1,4 @@
-import { Menu, Segment } from "semantic-ui-react";
+import { Menu } from "semantic-ui-react";
 
 export default function WABMenu({menuItems, selectedMenu, selectedMenuDispatch}){
     if (!selectedMenu || !selectedMenu.page) selectedMenuDispatch(menuItems[0].page);

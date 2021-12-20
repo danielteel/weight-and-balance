@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Container, Header, Segment } from 'semantic-ui-react';
 import { useStoredReducer } from '@dteel/use-stored-reducer';
 import WABMenu from './components/WABMenu';
@@ -13,6 +13,7 @@ import aircraftReducer from './reducers/aircraftReducer';
 import selectedMenuReducer from './reducers/selectedMenuReducer';
 import itemGroupReducer from './reducers/itemGroupReducer';
 
+
 const menuItems=[
     {page:'formfs', title: 'Form Fs'},
     {page:'aircraft', title:'Aircraft'},
@@ -24,9 +25,10 @@ const menuItems=[
 
 
 function App() {
-    const [selectedMenu, {current: selectedMenuDispatch}] = useStoredReducer('wab-menu', selectedMenuReducer, {page: 'formfs'}, sessionStorage, 500)
+    const [selectedMenu, {current: selectedMenuDispatch}] = useStoredReducer('wab-menu', selectedMenuReducer, {page: 'formfs'}, sessionStorage, 500);
+    
     const [formFs, {current: formFsDispatch}] = useStoredReducer('wab-formfs', formFsReducer, [], localStorage, 500);
-    const [aircraft, {current: aircraftDispatch}] = useStoredReducer('wab-aircraft', aircraftReducer, [{id: 0, tail:'0024', weight: 36000, moment: 14101}], localStorage, 500);
+    const [aircraft, {current: aircraftDispatch}] = useStoredReducer('wab-aircraft', aircraftReducer, [], localStorage, 500);
     const [kit, {current: kitDispatch}] = useStoredReducer('wab-kit', itemGroupReducer, [], localStorage, 500);
     const [cargo, {current: cargoDispatch}] = useStoredReducer('wab-cargo', itemGroupReducer, [], localStorage, 500);
 
@@ -37,13 +39,13 @@ function App() {
     if (selectedMenu?.page==='formfs'){
         pageToShow = <FormFs formFs={formFs} formFsDispatch={formFsDispatch} selectedMenuDispatch={selectedMenuDispatch}/>
     }else if (selectedMenu?.page==='formf'){
-        pageToShow = <FormF id={selectedMenu?.id} formFs={formFs} formFsDispatch={formFsDispatch} goHome={goHome}/>
+        pageToShow = <FormF id={selectedMenu?.id} formFs={formFs} formFsDispatch={formFsDispatch} aircraft={aircraft} goHome={goHome}/>
     }else if (selectedMenu?.page==='aircraft'){
         pageToShow=<Aircraft aircraft={aircraft} aircraftDispatch={aircraftDispatch}/>
     }else if (selectedMenu?.page==='standardkit'){
-        pageToShow=<ItemGroup items={kit} itemsDispatch={kitDispatch}/>
+        pageToShow=<ItemGroup items={kit} itemsDispatch={kitDispatch} title='Kit'/>
     }else if (selectedMenu?.page==='standardcargo'){
-        pageToShow=<ItemGroup items={cargo} itemsDispatch={cargoDispatch}/>
+        pageToShow=<ItemGroup items={cargo} itemsDispatch={cargoDispatch} title='Cargo'/>
     }else{
         selectedMenuDispatch('formfs');
     }

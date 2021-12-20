@@ -1,5 +1,5 @@
 import TouchInput from '@dteel/touch-input'
-import { Table, Input, Button, Header } from 'semantic-ui-react';
+import { Table, Input, Button } from 'semantic-ui-react';
 
 import {useState} from 'react';
 
@@ -26,11 +26,14 @@ export default function Aircraft({aircraft, aircraftDispatch}){
                             setDeleteAircraftId(null)
                         }}
             />
-            <Table unstackable  style={{maxWidth: '550px'}}>
-                <Table.Header>
+            <Table unstackable style={{maxWidth: '550px'}}>
+                <Table.Header className='stickyheader'>
                     <Table.Row>
                         <Table.HeaderCell colSpan='5'>
-                            <Button floated='left' icon='add' labelPosition='left' positive size='small' content='New Aircraft'  onClick={()=>aircraftDispatch('create', null)}/>
+                            <div style={{display:'flex', alignItems:'center'}}>
+                                <Button icon='add' labelPosition='left' positive size='small' content='New Aircraft'  onClick={()=>aircraftDispatch('create', null)}/>
+                                <div style={{flexGrow:'1', textAlign:'center', fontSize:'1.3em'}}>Aircraft</div>
+                            </div>
                         </Table.HeaderCell>
                     </Table.Row>
                     <Table.Row>
@@ -45,7 +48,7 @@ export default function Aircraft({aircraft, aircraftDispatch}){
                     {
                         aircraft?.length ?
                             aircraft.map( ac => (
-                                <Table.Row>
+                                <Table.Row key={ac.id}>
                                     <Table.Cell style={noPadCell}>
                                         <TouchInput as={Input} value={ac.tail} onChange={(v)=>aircraftDispatch('update', {...ac, tail: v})} fluid input={inputStyle}/>
                                     </Table.Cell>

@@ -2,8 +2,10 @@
   "name": "wab",
   "version": "0.1.0",
   "private": false,
+  "license": "ISC",
+  "author": "Dan Teel",
   "dependencies": {
-    "@dteel/touch-input": "^0.0.6",
+    "@dteel/touch-input": "^0.0.9",
     "@dteel/use-stored-reducer": "^0.0.5",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
