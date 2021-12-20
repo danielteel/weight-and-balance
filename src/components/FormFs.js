@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Button, Table, Header, Icon } from "semantic-ui-react";
+import { useState } from "react";
+import { Button, Table, Icon } from "semantic-ui-react";
 
 import ConfirmationModal from "./ConfirmationModal";
 
@@ -28,7 +28,7 @@ export default function FormFs({formFs, formFsDispatch, selectedMenuDispatch}){
                                 }}
             />
 
-            <Table selectable={formFs?.length} unstackable>
+            <Table selectable={formFs?.length} unstackable style={{maxWidth: '550px'}}>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell colSpan='5'>

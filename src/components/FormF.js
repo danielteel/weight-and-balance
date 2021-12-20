@@ -19,8 +19,6 @@ export default function FormF({formFs, formFsDispatch, id, goHome}){
     }
     
     return <>
-        <Header as='h3' textAlign='center'>{formF.mission}  {formF.tail}</Header>
-        <Divider/>
         <Tab panes={panes} renderActiveOnly onTabChange={(e, data)=>{
             sessionStorage.setItem('formf-tab-index', data.activeIndex);
         }}/>

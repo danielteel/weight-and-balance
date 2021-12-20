@@ -10,6 +10,10 @@ function calcArm(weight, moment, divider=100){
     return formatArm((formatMoment(moment)*momentSimplifier)/formatWeight(weight), divider);
 }
 
+function calcMoment(weight, arm){
+    return formatMoment((weight*arm)/momentSimplifier);
+}
+
 function formatArm(arm, divider=100){
     arm=realNumber(arm);
     return Math.round(arm*divider)/divider;
@@ -68,4 +72,4 @@ function isGoodObject(obj){
     return !(typeof obj!=='object' || Array.isArray(obj) || obj===null);
 }
 
-export {calcArm, realNumber, formatArm, formatWeight, formatMoment, isAboutEquals, displayVal, getUniqueId, isGoodObject, momentSimplifier};
+export {calcArm, calcMoment, realNumber, formatArm, formatWeight, formatMoment, isAboutEquals, displayVal, getUniqueId, isGoodObject, momentSimplifier};

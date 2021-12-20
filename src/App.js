@@ -6,16 +6,18 @@ import FormF from './components/FormF';
 import FormFs from './components/FormFs';
 import FormFMenu from './components/FormFMenu';
 import Aircraft from './components/Aircraft';
+import ItemGroup from './components/ItemGroup';
 
 import formFsReducer from './reducers/formFsReducer';
 import aircraftReducer from './reducers/aircraftReducer';
 import selectedMenuReducer from './reducers/selectedMenuReducer';
+import itemGroupReducer from './reducers/itemGroupReducer';
 
 const menuItems=[
     {page:'formfs', title: 'Form Fs'},
     {page:'aircraft', title:'Aircraft'},
-    {page:'standardkit', title:'Kit Presets'},
-    {page:'standardcargo', title:'Cargo Presets'}
+    {page:'standardkit', title:'Stock Kit'},
+    {page:'standardcargo', title:'Stock Cargo'}
 ]
 
 
@@ -25,6 +27,8 @@ function App() {
     const [selectedMenu, {current: selectedMenuDispatch}] = useStoredReducer('wab-menu', selectedMenuReducer, {page: 'formfs'}, sessionStorage, 500)
     const [formFs, {current: formFsDispatch}] = useStoredReducer('wab-formfs', formFsReducer, [], localStorage, 500);
     const [aircraft, {current: aircraftDispatch}] = useStoredReducer('wab-aircraft', aircraftReducer, [{id: 0, tail:'0024', weight: 36000, moment: 14101}], localStorage, 500);
+    const [kit, {current: kitDispatch}] = useStoredReducer('wab-kit', itemGroupReducer, [], localStorage, 500);
+    const [cargo, {current: cargoDispatch}] = useStoredReducer('wab-cargo', itemGroupReducer, [], localStorage, 500);
 
     const goHome = () => selectedMenuDispatch('formfs');
 
@@ -36,6 +40,10 @@ function App() {
         pageToShow = <FormF id={selectedMenu?.id} formFs={formFs} formFsDispatch={formFsDispatch} goHome={goHome}/>
     }else if (selectedMenu?.page==='aircraft'){
         pageToShow=<Aircraft aircraft={aircraft} aircraftDispatch={aircraftDispatch}/>
+    }else if (selectedMenu?.page==='standardkit'){
+        pageToShow=<ItemGroup items={kit} itemsDispatch={kitDispatch}/>
+    }else if (selectedMenu?.page==='standardcargo'){
+        pageToShow=<ItemGroup items={cargo} itemsDispatch={cargoDispatch}/>
     }else{
         selectedMenuDispatch('formfs');
     }
@@ -48,7 +56,7 @@ function App() {
             </Segment>
             <WABMenu menuItems={menuItems} selectedMenu={selectedMenu} selectedMenuDispatch={selectedMenuDispatch}/>
             <FormFMenu menuItems={menuItems} selectedMenu={selectedMenu} selectedMenuDispatch={selectedMenuDispatch} formFs={formFs} formFsDispatch={formFsDispatch}/>
-            <Segment attached="bottom" secondary>
+            <Segment attached="bottom" secondary style={{display:'flex', justifyContent:'center'}}>
                 {pageToShow}
             </Segment>
         </Container>
