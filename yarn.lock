@@ -1095,10 +1095,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
-"@dteel/touch-input@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@dteel/touch-input/-/touch-input-0.0.5.tgz#a77a1521c64b42db9b0a423cf425dab919638bf2"
-  integrity sha512-OoaG3BfBHRtFgVuobNoBer5KGu1obEluZ14Y9Ms/fxJmoVTWLPYIbja5/GdS9Ak6lhaOGbj58mUpAegnls6vIg==
+"@dteel/touch-input@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@dteel/touch-input/-/touch-input-0.0.6.tgz#9d9144409124c88d8cc4b4b0d070a6c46ef9a373"
+  integrity sha512-JJre5qkZLRgetcVMMtEtPIvRukhh5aBYC8nv9/qf+iUTtRQokIfaPxTavXiwfNC6+1JJAkx06biCM0x4mb/fGg==
 
 "@dteel/use-stored-reducer@^0.0.5":
   version "0.0.5"
