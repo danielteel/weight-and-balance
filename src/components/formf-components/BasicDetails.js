@@ -4,20 +4,17 @@ import { calcArm, formatWeight, formatMoment } from "../../common";
 
 import TouchInput from "@dteel/touch-input";
 
-export default function EditBasicDetails({formF, formFsDispatch, aircraftList}){
+export default function EditBasicDetails({formF, formFsDispatch, aircraftList, mergeProps}){
     if (!formF) return 'undefined formf';
 
     const aircraft = aircraftList.find( ac => ac.id === formF.aircraft );
 
-    const mergeFormF = (obj) => {
-        obj.id=formF.id;
-        const formFCopy=Object.assign({...formF}, obj);
-        formFsDispatch('update', formFCopy);
-    }
+
 
     const aircraftDropdownList = aircraftList.map( ac=>{
         return {key: ac.id, value: ac.id, text: ac.tail};
     })
+    aircraftDropdownList.push({key: null, value: null, text:'-clear-'});
 
     return (
         <Form>
@@ -28,7 +25,7 @@ export default function EditBasicDetails({formF, formFsDispatch, aircraftList}){
                     label='Mission Name'
                     type='text'
                     value={formF.mission}
-                    onChange={(value)=>mergeFormF({mission: value})}
+                    onChange={(value)=>mergeProps({mission: value})}
                 />
             </Form.Field>
 
@@ -40,7 +37,7 @@ export default function EditBasicDetails({formF, formFsDispatch, aircraftList}){
                     label='Aircraft'
                     options={aircraftDropdownList}
                     value={formF.aircraft}
-                    onChange={(e,{value})=>mergeFormF({aircraft: value})}
+                    onChange={(e,{value})=>mergeProps({aircraft: value})}
                 />
             </Form.Field>
 
@@ -51,8 +48,7 @@ export default function EditBasicDetails({formF, formFsDispatch, aircraftList}){
                     title='Crew Weight'
                     type='number'
                     value={formF.crew?.weight}
-                    onChange={(value)=>mergeFormF({crew: {weight: value, moment: formF.crew.moment}})}
-                    onBlur={()=>mergeFormF({crew: {weight: formatWeight(formF.crew.weight), moment: formatMoment(formF.crew.moment)}})}
+                    onChange={(value)=>mergeProps({crew: {weight: value, moment: formF.crew.moment}})}
                 />
                 <TouchInput 
                     as={Form.Input}
@@ -60,8 +56,7 @@ export default function EditBasicDetails({formF, formFsDispatch, aircraftList}){
                     title='Crew Moment'
                     type='number'
                     value={formF.crew?.moment}
-                    onChange={(value)=>mergeFormF({crew: {weight: formF.crew.weight, moment: value}})}
-                    onBlur={()=>mergeFormF({crew: {weight: formatWeight(formF.crew.weight), moment: formatMoment(formF.crew.moment)}})}
+                    onChange={(value)=>mergeProps({crew: {weight: formF.crew.weight, moment: value}})}
                 />
             </Form.Field>
         </Form>

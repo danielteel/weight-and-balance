@@ -11,7 +11,7 @@ const Weight = ({value, className, ...props}) => <div className={'wab m r pad '+
 const Moment = ({value, className, ...props}) => <div className={'wab m r pad '+className} {...props}>{displayVal(value, 2)}</div>
 const Arm = ({value, className, ...props}) => <div className={'wab m r pad '+className} {...props}>{displayVal(value, 2)}</div>
 
-export default function ViewFormF({formF, aircraftList}){
+export default function ViewForm({formF, aircraftList}){
     if (!formF) return 'undefined formf';
 
     let aircraft = aircraftList.find( ac => ac.id === formF.aircraft );

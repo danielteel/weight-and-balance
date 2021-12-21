@@ -5,7 +5,7 @@ import ConfirmationModal from "./ConfirmationModal";
 
 
 
-export default function FormFs({formFs, formFsDispatch, selectedMenuDispatch}){
+export default function FormFs({formFs, formFsDispatch, selectedMenuDispatch, aircraftList}){
     const [deleteFormFId, setDeleteFormFId]=useState(null);
 
     const newFormAction = () => {
@@ -69,7 +69,7 @@ export default function FormFs({formFs, formFsDispatch, selectedMenuDispatch}){
                                             {formF.mission}
                                         </Table.Cell>
                                         <Table.Cell>
-                                            {formF.tail}
+                                            {aircraftList?.find( ac=> ac.id===formF.aircraft )?.tail}
                                         </Table.Cell>
                                         <Table.Cell>
                                             {formF.created}

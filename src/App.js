@@ -26,7 +26,7 @@ const menuItems=[
 
 function App() {
     const [selectedMenu, {current: selectedMenuDispatch}] = useStoredReducer('wab-menu', selectedMenuReducer, {page: 'formfs'}, sessionStorage, 500);
-    
+
     const [formFs, {current: formFsDispatch}] = useStoredReducer('wab-formfs', formFsReducer, [], localStorage, 500);
     const [aircraft, {current: aircraftDispatch}] = useStoredReducer('wab-aircraft', aircraftReducer, [], localStorage, 500);
     const [kit, {current: kitDispatch}] = useStoredReducer('wab-kit', itemGroupReducer, [], localStorage, 500);
@@ -37,9 +37,9 @@ function App() {
     let pageToShow=null;
 
     if (selectedMenu?.page==='formfs'){
-        pageToShow = <FormFs formFs={formFs} formFsDispatch={formFsDispatch} selectedMenuDispatch={selectedMenuDispatch}/>
+        pageToShow = <FormFs formFs={formFs} formFsDispatch={formFsDispatch} selectedMenuDispatch={selectedMenuDispatch} aircraftList={aircraft}/>
     }else if (selectedMenu?.page==='formf'){
-        pageToShow = <FormF id={selectedMenu?.id} formFs={formFs} formFsDispatch={formFsDispatch} aircraft={aircraft} goHome={goHome}/>
+        pageToShow = <FormF id={selectedMenu?.id} formFs={formFs} formFsDispatch={formFsDispatch} aircraftList={aircraft} goHome={goHome}/>
     }else if (selectedMenu?.page==='aircraft'){
         pageToShow=<Aircraft aircraft={aircraft} aircraftDispatch={aircraftDispatch}/>
     }else if (selectedMenu?.page==='standardkit'){
