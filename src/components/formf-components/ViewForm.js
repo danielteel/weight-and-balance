@@ -50,7 +50,7 @@ export default function ViewForm({formF, aircraftList}){
     const rampWeight = total(operatingWeight, rampFuelWeight, cargoWeight);
     const rampMoment = total(operatingMoment, rampFuelMoment, cargoMoment);
     const rampCG = calcArm(rampWeight, rampMoment);
-    
+
     const takeoffWeight = total(operatingWeight, takeOffFuelWeight, cargoWeight);
     const takeoffMoment = total(operatingMoment, takeOffFuelMoment, cargoMoment);
     const takeoffCG = calcArm(takeoffWeight, takeoffMoment);
