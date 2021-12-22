@@ -13,7 +13,7 @@ const inputStyle={style:{paddingLeft:'5px', paddingRight:'5px'}};
 
 export default function Aircraft({aircraft, aircraftDispatch}){
     const [deleteAircraftId, setDeleteAircraftId]=useState(null);
-
+ 
     return (
         <>
             <ConfirmationModal title={"Are you sure you want to delete this?"}

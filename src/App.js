@@ -43,9 +43,9 @@ function App() {
     }else if (selectedMenu?.page==='aircraft'){
         pageToShow=<Aircraft aircraft={aircraft} aircraftDispatch={aircraftDispatch}/>
     }else if (selectedMenu?.page==='standardkit'){
-        pageToShow=<ItemGroup items={kit} itemsDispatch={kitDispatch} title='Kit'/>
+        pageToShow=<ItemGroup items={kit} itemsDispatch={kitDispatch} title='Kit Presets'/>
     }else if (selectedMenu?.page==='standardcargo'){
-        pageToShow=<ItemGroup items={cargo} itemsDispatch={cargoDispatch} title='Cargo'/>
+        pageToShow=<ItemGroup items={cargo} itemsDispatch={cargoDispatch} title='Cargo Presets'/>
     }else{
         selectedMenuDispatch('formfs');
     }
