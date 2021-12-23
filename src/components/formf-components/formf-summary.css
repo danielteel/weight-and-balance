@@ -4,31 +4,41 @@
     font-family: Arial, Helvetica, sans-serif;
     font-size:10pt;
     color: black;
+    background-color: white;
+    overflow: auto;
+    touch-action: pan-x pan-y;
+    max-width: 100%;
+    width: fit-content;
 }
 
 .view-parent  * {
     white-space: nowrap;
-    overflow: hidden;
+    touch-action: pan-x pan-y;
 }
 
 .wab.header-grid {
     display: grid;
     grid-template-columns: 15fr 3.5fr 1.5fr;
+    width: fit-content;
 }
+
 
 .wab.mission-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+    width: fit-content;
 }
 
 .wab.split-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    width: fit-content;
 }
 
 .wab.basic-grid{
     display: grid;
     grid-template-columns: 6fr 43fr 19fr 19fr;
+    width: fit-content;
 }
 
 .wab.title-cell {

@@ -21,6 +21,7 @@ pre {
   flex-grow: 1;
   background-color: #333333;
   min-height: 100vh;
+  min-width: 100vw;
 }
 
 .stickyheader {
