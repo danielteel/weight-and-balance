@@ -1,15 +1,11 @@
-import { List, Form } from "semantic-ui-react";
-
-import { calcArm, formatWeight, formatMoment } from "../../common";
+import { Form } from "semantic-ui-react";
 
 import TouchInput from "@dteel/touch-input";
 
-export default function EditBasicDetails({formF, formFsDispatch, aircraftList, mergeProps}){
+export default function EditBasicDetails({formF, aircraftList, mergeProps}){
     if (!formF) return 'undefined formf';
 
     const aircraft = aircraftList.find( ac => ac.id === formF.aircraft );
-
-
 
     const aircraftDropdownList = aircraftList.map( ac=>{
         return {key: ac.id, value: ac.id, text: ac.tail};
