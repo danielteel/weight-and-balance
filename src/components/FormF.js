@@ -1,4 +1,4 @@
-import { Tab } from 'semantic-ui-react';
+import { Menu, Segment, Container } from 'semantic-ui-react';
 import ViewForm from './formf-components/ViewForm';
 import BasicDetails from './formf-components/BasicDetails';
 import EditFuel from './formf-components/EditFuel';
@@ -18,15 +18,41 @@ export default function FormF({formFs, formFsDispatch, aircraftList, id, goHome}
         formFsDispatch('update', formFCopy);
     }
     
-    const panes = [
-        { menuItem: 'Form', render: () => <Tab.Pane>  <ViewForm formF={formF} aircraftList={aircraftList}/> </Tab.Pane> },
-        { menuItem: 'Basic', render: () => <Tab.Pane> <BasicDetails formF={formF} aircraftList={aircraftList} mergeProps={mergeProps}/> </Tab.Pane> },
-        { menuItem: 'Kit', render: () => <Tab.Pane>   <EditItemGroup formF={formF} mergeProps={mergeProps} objName={'kit'} title={'Kit'}/> </Tab.Pane> },
-        { menuItem: 'Cargo', render: () => <Tab.Pane> <EditItemGroup formF={formF} mergeProps={mergeProps} objName={'cargo'} title={'Cargo'}/> </Tab.Pane> },
-        { menuItem: 'Fuel', render: () => <Tab.Pane>  <EditFuel formF={formF} mergeProps={mergeProps}/></Tab.Pane> },
+    const views = [
+        { viewName: 'Form',     render: <ViewForm formF={formF} aircraftList={aircraftList}/> },
+        { viewName: 'Basic',    render: <BasicDetails formF={formF} aircraftList={aircraftList} mergeProps={mergeProps}/> },
+        { viewName: 'Kit',      render: <EditItemGroup formF={formF} mergeProps={mergeProps} objName={'kit'} title={'Kit'}/> },
+        { viewName: 'Cargo',    render: <EditItemGroup formF={formF} mergeProps={mergeProps} objName={'cargo'} title={'Cargo'}/> },
+        { viewName: 'Fuel',     render: <EditFuel formF={formF} mergeProps={mergeProps}/> },
     ];
     
-    return <>
-        <Tab panes={panes} renderActiveOnly style={{textAlign:'center'}}/>
-    </>
+    let activeView=views[0].render;
+    let activeViewName=views[0].viewName;
+
+    for (const view of views){
+        if (formF.view === view.viewName){
+            activeView=view.render;
+            activeViewName=view.viewName;
+        }
+    }
+
+    return (<>
+            <Menu tabular attached>
+                {
+                    views.map( item => (
+                        <Menu.Item
+                            key={item.viewName}
+                            name={item.viewName}
+                            active={activeViewName === item.viewName}
+                            onClick={()=>mergeProps({view: item.viewName})}
+                        />
+                        )
+                    )
+                }
+            </Menu>
+            <Segment attached  style={{alignItems:'center', display:'flex', flexDirection:'column'}}>
+                {activeView}
+            </Segment>
+        </>
+    );
 }

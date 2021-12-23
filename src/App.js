@@ -58,7 +58,7 @@ function App() {
             </Segment>
             <WABMenu menuItems={menuItems} selectedMenu={selectedMenu} selectedMenuDispatch={selectedMenuDispatch}/>
             <FormFMenu menuItems={menuItems} selectedMenu={selectedMenu} selectedMenuDispatch={selectedMenuDispatch} formFs={formFs} formFsDispatch={formFsDispatch}/>
-            <Segment attached="bottom" secondary >
+            <Segment attached="bottom" secondary style={{alignItems:'center', display:'flex', flexDirection:'column'}}>
                 {pageToShow}
             </Segment>
         </Container>

@@ -5,8 +5,6 @@ function blankFormF(){
         created: (new Date()).toDateString(),
         date: (new Date()).toDateString(),
 
-        open: false,
-
         mission: "TRAINING",
 
         aircraft: null,
@@ -26,7 +24,11 @@ function blankFormF(){
             centerMATInstalled: false,
             taxiTakeOffFuelBurn: 500,
             landingFuel: 1500
-        }
+        },
+        
+        //Open and view are for saving state of if the formf is open for editing and what screen editing is happening on
+        open: false,
+        view: null,
     };
 }
 

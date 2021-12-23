@@ -1,4 +1,4 @@
-import { Form } from "semantic-ui-react";
+import { Form, Segment } from "semantic-ui-react";
 
 import TouchInput from "@dteel/touch-input";
 
@@ -13,6 +13,7 @@ export default function EditBasicDetails({formF, aircraftList, mergeProps}){
     aircraftDropdownList.push({key: null, value: null, text:'-clear-'});
 
     return (
+        <Segment secondary style={{width:'100%', maxWidth:'400px'}}>
         <Form>
             <Form.Field>
                 <TouchInput 
@@ -56,5 +57,6 @@ export default function EditBasicDetails({formF, aircraftList, mergeProps}){
                 />
             </Form.Field>
         </Form>
+        </Segment>
     );
 }
