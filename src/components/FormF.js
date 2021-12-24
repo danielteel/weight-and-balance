@@ -5,6 +5,8 @@ import EditFuel from './formf-components/EditFuel';
 import EditItemGroup from './formf-components/EditItemGroup';
 import EditRemarks from './formf-components/EditRemarks';
 
+import './formf-components/formf.css';
+
 export default function FormF({formFs, formFsDispatch, aircraftList, id, goHome, standardKit, standardCargo}){
     const formF = formFs?.find( form => form.id===id );
 

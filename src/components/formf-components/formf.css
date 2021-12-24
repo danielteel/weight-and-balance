@@ -42,7 +42,9 @@
     display: grid;
     grid-template-columns: 6fr 43fr 19fr 19fr;
     width: fit-content;
+    min-width: 100%;
 }
+
 
 .wab.title-cell {
     display: flex;
@@ -109,9 +111,21 @@
 }
 .wab.pad.remark{
     min-height: 1em;
-    white-space: pre-wrap !important;
+    white-space: pre;
 }
 
 .wab.span4{
     grid-column: span 3;
+}
+
+.wab-code-message {
+    max-width: 100% ;
+    width: fit-content;
+    overflow: auto;
+    white-space: pre;
+    touch-action: pan-x pan-y;
+}
+
+.wab-code-message * {
+    touch-action: pan-x pan-y;
 }

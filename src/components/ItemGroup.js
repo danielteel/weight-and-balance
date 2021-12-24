@@ -6,7 +6,7 @@ import {useState} from 'react';
 import ItemGroupImport from './ItemGroupImport';
 import ConfirmationModal from './ConfirmationModal';
 
-import { calcArm, calcMoment, formatWeight, formatMoment, isAboutEquals } from '../common';
+import { calcArm, calcMoment, formatWeight, formatMoment } from '../common';
 
 
 const noPadCell={padding:'1px', border:'none'};

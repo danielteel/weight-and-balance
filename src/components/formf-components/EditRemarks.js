@@ -30,7 +30,7 @@ export default function EditRemarks({formF, mergeProps, aircraftList}){
                                         mergeProps({remarks: remarksCopy});
                                     }}/>
                                 :
-                                    <Message size="mini" style={{maxWidth:'100%', width:'fit-content', overflow:"auto", whiteSpace:'pre', touchAction:'pan-x pan-y'}}>
+                                    <Message size="mini" className="wab-code-message">
                                         {markUpScript(remark.code, externKeywords)}
                                     </Message>
                             }

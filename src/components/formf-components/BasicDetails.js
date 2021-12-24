@@ -1,4 +1,6 @@
 import { Form, Segment } from "semantic-ui-react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 import TouchInput from "@dteel/touch-input";
 
@@ -12,9 +14,29 @@ export default function EditBasicDetails({formF, aircraftList, mergeProps}){
     })
     aircraftDropdownList.push({key: null, value: null, text:'-clear-'});
 
+    let date=new Date(formF.date);
+    if (isNaN(Date.parse(date))){
+        mergeProps({date: new Date()});
+        date=new Date();
+    }
+    
+
     return (
         <Segment secondary style={{width:'100%', maxWidth:'400px'}}>
         <Form>
+            
+            <Form.Field>
+                <Form.Dropdown
+                    selection
+                    fluid
+                    error={aircraft?null:'Select an aircraft'}
+                    label='Aircraft'
+                    options={aircraftDropdownList}
+                    value={formF.aircraft}
+                    onChange={(e,{value})=>mergeProps({aircraft: value})}
+                />
+            </Form.Field>
+
             <Form.Field>
                 <TouchInput 
                     as={Form.Input}
@@ -27,16 +49,51 @@ export default function EditBasicDetails({formF, aircraftList, mergeProps}){
             </Form.Field>
 
             <Form.Field>
-                <Form.Dropdown
-                    selection
+                <label>Date</label>
+                <DatePicker todayButton='Today' selected={date} onChange={(date) => mergeProps({date})} />
+            </Form.Field>
+
+            <Form.Field>
+                <TouchInput 
+                    as={Form.Input}
                     fluid
-                    error={aircraft?null:'Select an aircraft'}
-                    label='Aircraft'
-                    options={aircraftDropdownList}
-                    value={formF.aircraft}
-                    onChange={(e,{value})=>mergeProps({aircraft: value})}
+                    label='To'
+                    type='text'
+                    value={formF.to}
+                    onChange={(value)=>mergeProps({to: value})}
                 />
             </Form.Field>
+            <Form.Field>
+                <TouchInput 
+                    as={Form.Input}
+                    fluid
+                    label='From'
+                    type='text'
+                    value={formF.from}
+                    onChange={(value)=>mergeProps({from: value})}
+                />
+            </Form.Field>
+            <Form.Field>
+                <TouchInput 
+                    as={Form.Input}
+                    fluid
+                    label='Pilot'
+                    type='text'
+                    value={formF.pilot}
+                    onChange={(value)=>mergeProps({pilot: value})}
+                />
+            </Form.Field>
+            <Form.Field>
+                <TouchInput 
+                    as={Form.Input}
+                    fluid
+                    label='Home Station'
+                    type='text'
+                    value={formF.homeStation}
+                    onChange={(value)=>mergeProps({homeStation: value})}
+                />
+            </Form.Field>
+
 
             <Form.Field>
                 <TouchInput 

@@ -39,8 +39,10 @@ exit output;`
 function blankFormF(){
     return {
         created: (new Date()).toDateString(),
-        date: (new Date()).toDateString(),
-
+        date: "",
+        to: "",
+        from: "",
+        pilot: "",
         mission: "TRAINING",
 
         aircraft: null,

@@ -1,5 +1,4 @@
 import { Header } from 'semantic-ui-react';
-import './formf-summary.css';
 import React from 'react';
 import { realNumber, displayVal, calcArm } from '../../common';
 import { getFuelMoment, fwdMATDryWeight, fwdMATDryMoment, centerMATDryWeight, centerMATDryMoment } from '../../fuel';
@@ -90,9 +89,11 @@ export default function ViewForm({formF, aircraftList}){
                 </div>
                 <div className='wab m br pad'>
                     <span className='wab bold'>FROM</span>
+                    <span className='wab push-right'>{formF.from}</span>
                 </div>
                 <div className='wab m pad'>
                     <span className='wab bold'>HOME STATION</span>
+                    <span className='wab push-right'>{formF.homeStation}</span>
                 </div>
                 <div className='wab m br bt pad'>
                     <span className='wab bold'>MISSION</span>
@@ -104,9 +105,11 @@ export default function ViewForm({formF, aircraftList}){
                 </div>
                 <div className='wab m br bt pad'>
                     <span className='wab bold'>TO</span>
+                    <span className='wab push-right'>{formF.to}</span>
                 </div>
                 <div className='wab m bt pad'>
                     <span className='wab bold'>PILOT</span>
+                    <span className='wab push-right'>{formF.pilot}</span>
                 </div>
             </div>
             <div className="wab split-grid tbl tbr tbt">
