@@ -1,4 +1,4 @@
-import { Form, Segment } from "semantic-ui-react";
+import { Form, Segment, Divider } from "semantic-ui-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -24,7 +24,6 @@ export default function EditBasicDetails({formF, aircraftList, mergeProps}){
     return (
         <Segment secondary style={{width:'100%', maxWidth:'400px'}}>
         <Form>
-            
             <Form.Field>
                 <Form.Dropdown
                     selection
@@ -53,6 +52,8 @@ export default function EditBasicDetails({formF, aircraftList, mergeProps}){
                 <DatePicker todayButton='Today' selected={date} onChange={(date) => mergeProps({date})} />
             </Form.Field>
 
+            <Divider/>
+
             <Form.Field>
                 <TouchInput 
                     as={Form.Input}
@@ -63,6 +64,7 @@ export default function EditBasicDetails({formF, aircraftList, mergeProps}){
                     onChange={(value)=>mergeProps({to: value})}
                 />
             </Form.Field>
+
             <Form.Field>
                 <TouchInput 
                     as={Form.Input}
@@ -73,6 +75,9 @@ export default function EditBasicDetails({formF, aircraftList, mergeProps}){
                     onChange={(value)=>mergeProps({from: value})}
                 />
             </Form.Field>
+
+            <Divider/>
+
             <Form.Field>
                 <TouchInput 
                     as={Form.Input}
@@ -83,6 +88,7 @@ export default function EditBasicDetails({formF, aircraftList, mergeProps}){
                     onChange={(value)=>mergeProps({pilot: value})}
                 />
             </Form.Field>
+
             <Form.Field>
                 <TouchInput 
                     as={Form.Input}
@@ -94,6 +100,7 @@ export default function EditBasicDetails({formF, aircraftList, mergeProps}){
                 />
             </Form.Field>
 
+            <Divider/>
 
             <Form.Field>
                 <TouchInput 

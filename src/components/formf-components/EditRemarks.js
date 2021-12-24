@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Checkbox, Segment, Message } from "semantic-ui-react";
 import TextareaAutosize from 'react-textarea-autosize';
 
@@ -11,6 +11,10 @@ const externKeywords=['newline', 'kit_length', 'cargo_length', 'tail', 'basic_we
 export default function EditRemarks({formF, mergeProps, aircraftList}){
     const [editEnabled, setEditEnabled] = useState(false);
     const externs=buildExternList(formF, aircraftList);
+
+    useEffect(()=>{
+        setEditEnabled(false);
+    }, [formF.id])
 
     let remarks=[];
     if (Array.isArray(formF.remarks)) remarks=formF.remarks;
