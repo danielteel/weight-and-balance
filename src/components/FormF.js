@@ -1,10 +1,11 @@
-import { Menu, Segment, Container } from 'semantic-ui-react';
+import { Menu, Segment } from 'semantic-ui-react';
 import ViewForm from './formf-components/ViewForm';
 import BasicDetails from './formf-components/BasicDetails';
 import EditFuel from './formf-components/EditFuel';
 import EditItemGroup from './formf-components/EditItemGroup';
+import EditRemarks from './formf-components/EditRemarks';
 
-export default function FormF({formFs, formFsDispatch, aircraftList, id, goHome}){
+export default function FormF({formFs, formFsDispatch, aircraftList, id, goHome, standardKit, standardCargo}){
     const formF = formFs?.find( form => form.id===id );
 
     if (!formF){
@@ -21,9 +22,10 @@ export default function FormF({formFs, formFsDispatch, aircraftList, id, goHome}
     const views = [
         { viewName: 'Form',     render: <ViewForm formF={formF} aircraftList={aircraftList}/> },
         { viewName: 'Basic',    render: <BasicDetails formF={formF} aircraftList={aircraftList} mergeProps={mergeProps}/> },
-        { viewName: 'Kit',      render: <EditItemGroup formF={formF} mergeProps={mergeProps} objName={'kit'} title={'Kit'}/> },
-        { viewName: 'Cargo',    render: <EditItemGroup formF={formF} mergeProps={mergeProps} objName={'cargo'} title={'Cargo'}/> },
+        { viewName: 'Kit',      render: <EditItemGroup formF={formF} mergeProps={mergeProps} objName={'kit'} title={'Kit'} presets={standardKit}/> },
+        { viewName: 'Cargo',    render: <EditItemGroup formF={formF} mergeProps={mergeProps} objName={'cargo'} title={'Cargo'} presets={standardCargo}/> },
         { viewName: 'Fuel',     render: <EditFuel formF={formF} mergeProps={mergeProps}/> },
+        { viewName: 'Remarks',  render: <EditRemarks formF={formF} mergeProps={mergeProps} aircraftList={aircraftList}/>}
     ];
     
     let activeView=views[0].render;

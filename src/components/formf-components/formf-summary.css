@@ -20,6 +20,7 @@
     display: grid;
     grid-template-columns: 15fr 3.5fr 1.5fr;
     width: fit-content;
+    min-width: 100%;
 }
 
 
@@ -27,12 +28,14 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     width: fit-content;
+    min-width: 100%;
 }
 
 .wab.split-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     width: fit-content;
+    min-width: 100%;
 }
 
 .wab.basic-grid{
@@ -103,6 +106,10 @@
 .wab.pad{
     padding-left: 2px;
     padding-right: 2px;
+}
+.wab.pad.remark{
+    min-height: 1em;
+    white-space: pre-wrap !important;
 }
 
 .wab.span4{

@@ -29,6 +29,8 @@ function formatMoment(moment){
 }
 
 function isAboutEquals(a,b, smallestDiff=0.0000001){
+    a=realNumber(a);
+    b=realNumber(b);
     if (Math.abs(a-b)<smallestDiff){
         return true;
     }
@@ -71,5 +73,7 @@ function getUniqueId(arrayOfObjs, property){
 function isGoodObject(obj){
     return !(typeof obj!=='object' || Array.isArray(obj) || obj===null);
 }
+
+
 
 export {calcArm, calcMoment, realNumber, formatArm, formatWeight, formatMoment, isAboutEquals, displayVal, getUniqueId, isGoodObject, momentSimplifier};

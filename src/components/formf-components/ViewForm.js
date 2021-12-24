@@ -1,8 +1,9 @@
 import { Header } from 'semantic-ui-react';
-import {realNumber, displayVal, calcArm} from '../../common';
-import { getFuelMoment, fwdMATDryWeight, fwdMATDryMoment, centerMATDryWeight, centerMATDryMoment } from '../../fuel';
 import './formf-summary.css';
 import React from 'react';
+import { realNumber, displayVal, calcArm } from '../../common';
+import { getFuelMoment, fwdMATDryWeight, fwdMATDryMoment, centerMATDryWeight, centerMATDryMoment } from '../../fuel';
+import { buildExternList, runCode } from "./calcRemarks";
 
 const total = (...args) => args.reduce( (prev, current) => (prev+realNumber(current)), 0);
 const difference = (...args) => args.reduce( (prev, current) => (realNumber(prev)-realNumber(current)));
@@ -63,6 +64,8 @@ export default function ViewForm({formF, aircraftList}){
     const landingMoment = total(zeroFuelMoment, landingFuelMoment);
     const landingCG = calcArm(landingWeight, landingMoment);
 
+    const remarksExterns = buildExternList(formF, aircraftList);
+
     const content = (
         <div className='view-parent'>
             <Header as='h3' textAlign='center'>FOR UNOFFICIAL USE ONLY</Header>
@@ -109,18 +112,13 @@ export default function ViewForm({formF, aircraftList}){
             <div className="wab split-grid tbl tbr tbt">
                 <div className='wab br tbb'>
                     <div className='wab bold pad'>REMARKS</div>
-                    <div className='wab pad'>
-                        ACFT INIT - {Math.round(aircraft.weight)} / {Math.round(calcArm(aircraft.weight, aircraft.moment))}
-                    </div>
-                    <div className='wab pad'>
-                        Kit - {Math.round(kitWeight)} / {Math.round(calcArm(kitWeight, kitMoment))}
-                    </div>
-                    <div className='wab pad'>
-                        Cargo - {Math.round(cargoWeight)} / {Math.round(calcArm(cargoWeight, cargoMoment))}
-                    </div>
-                    <div className='wab pad'>
-                        Kit+Cargo - {Math.round(total(kitWeight, cargoWeight))} / {Math.round(calcArm(total(kitWeight, cargoWeight), total(kitMoment, cargoMoment)))}
-                    </div>
+                    {
+                        formF.remarks?.map( remark => (
+                            <div key={remark.id} className='wab pad'>
+                                <div className='wab pad remark'>{runCode(remark.code, remarksExterns)}</div>
+                            </div>
+                        ))
+                    }
                 </div>
                 <div className='wab basic-grid bl'>
                     <div className='wab m c br bold'>REF</div>
@@ -195,7 +193,7 @@ export default function ViewForm({formF, aircraftList}){
 
 
                     <div className='wab m c tbt br bold'>12</div>
-                    <div className='wab m   tbt br pad'>Total Aircraft Weight (without cargo)</div>
+                    <div className='wab m   tbt br pad'>Total Aircraft Weight (less cargo)</div>
                     <Weight className='bt tbt br' value={totalAircraftWeight}/>
                     <Moment className='bt tbt' value={totalAircraftMoment}/>
 

@@ -1,5 +1,41 @@
 import { getUniqueId, isGoodObject } from "../common";
 
+const defRemarks=[
+    {
+      "id": 0,
+      "code":
+`//ACFT INIT
+string output=newline+"ACFT INIT: "+string(floor(basic_weight+0.5))+" / "+string(floor(calcArm(basic_weight, basic_moment)+0.5))+newline;
+
+//kit: xxx lbs / xxx in
+double kitWeight=0, kitMoment=0;
+if (kit_length>0){
+	for (double i=0;i<kit_length;i=i+1){
+		kitWeight=kitWeight+kit_i_weight(i);
+		kitMoment=kitMoment+kit_i_moment(i);
+	}
+	output=output+"kit: "+string(floor(kitWeight+0.5))+" lbs / "+string(floor(calcArm(kitWeight, kitMoment)+0.5))+" in"+newline;
+}
+double cargoWeight=0, cargoMoment=0;
+
+//cargo: xxx lbs / xxx in
+if (cargo_length>0){
+	for (double i=0;i<cargo_length;i=i+1){
+		cargoWeight=cargoWeight+cargo_i_weight(i);
+		cargoMoment=cargoMoment+cargo_i_moment(i);
+	}
+	output=output+"cargo: "+string(floor(cargoWeight+0.5))+" lbs / "+string(floor(calcArm(cargoWeight, cargoMoment)+0.5))+" in"+newline;
+}
+
+//kit+cargo: xxx lbs / xxx in
+if (cargo_length>0 && kit_length>0){
+	output=output+"kit+cargo: "+string(floor(cargoWeight+kitWeight+0.5))+" lbs / "+string(floor(calcArm(cargoWeight+kitWeight, cargoMoment+kitMoment)+0.5))+" in"+newline;
+}
+
+exit output;`
+    }
+];
+
 function blankFormF(){
     return {
         created: (new Date()).toDateString(),
@@ -25,7 +61,8 @@ function blankFormF(){
             taxiTakeOffFuelBurn: 500,
             landingFuel: 1500
         },
-        
+
+        remarks: defRemarks,
         //Open and view are for saving state of if the formf is open for editing and what screen editing is happening on
         open: false,
         view: null,

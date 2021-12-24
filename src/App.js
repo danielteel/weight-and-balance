@@ -39,7 +39,7 @@ function App() {
     if (selectedMenu?.page==='formfs'){
         pageToShow = <FormFs formFs={formFs} formFsDispatch={formFsDispatch} selectedMenuDispatch={selectedMenuDispatch} aircraftList={aircraft}/>
     }else if (selectedMenu?.page==='formf'){
-        pageToShow = <FormF id={selectedMenu?.id} formFs={formFs} formFsDispatch={formFsDispatch} aircraftList={aircraft} goHome={goHome}/>
+        pageToShow = <FormF id={selectedMenu?.id} formFs={formFs} formFsDispatch={formFsDispatch} aircraftList={aircraft} goHome={goHome} standardKit={kit} standardCargo={cargo}/>
     }else if (selectedMenu?.page==='aircraft'){
         pageToShow=<Aircraft aircraft={aircraft} aircraftDispatch={aircraftDispatch}/>
     }else if (selectedMenu?.page==='standardkit'){
