@@ -10,7 +10,7 @@ export default function FormFMenu({menuItems, selectedMenu, selectedMenuDispatch
     if (!openFormFs || openFormFs.length===0) return null;
 
     return (
-            <Menu attached>
+            <Menu.Menu position="right">
                     {
                         openFormFs.map( item => {
                             return (
@@ -34,6 +34,6 @@ export default function FormFMenu({menuItems, selectedMenu, selectedMenuDispatch
                             );
                         })
                     }
-            </Menu>
+            </Menu.Menu>
     );
 }

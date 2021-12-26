@@ -4,6 +4,7 @@ import BasicDetails from './formf-components/BasicDetails';
 import EditFuel from './formf-components/EditFuel';
 import EditItemGroup from './formf-components/EditItemGroup';
 import EditRemarks from './formf-components/EditRemarks';
+import FormOptions from './formf-components/FormOptions';
 
 import './formf-components/formf.css';
 
@@ -24,10 +25,11 @@ export default function FormF({formFs, formFsDispatch, aircraftList, id, goHome,
     const views = [
         { viewName: 'Form',     render: <ViewForm formF={formF} aircraftList={aircraftList}/> },
         { viewName: 'Basic',    render: <BasicDetails formF={formF} aircraftList={aircraftList} mergeProps={mergeProps}/> },
+        { viewName: 'Fuel',     render: <EditFuel formF={formF} mergeProps={mergeProps}/> },
         { viewName: 'Kit',      render: <EditItemGroup formF={formF} mergeProps={mergeProps} objName={'kit'} title={'Kit'} presets={standardKit}/> },
         { viewName: 'Cargo',    render: <EditItemGroup formF={formF} mergeProps={mergeProps} objName={'cargo'} title={'Cargo'} presets={standardCargo}/> },
-        { viewName: 'Fuel',     render: <EditFuel formF={formF} mergeProps={mergeProps}/> },
-        { viewName: 'Remarks',  render: <EditRemarks formF={formF} mergeProps={mergeProps} aircraftList={aircraftList}/>}
+        { viewName: 'Remarks',  render: <EditRemarks formF={formF} mergeProps={mergeProps} aircraftList={aircraftList}/>},
+        { viewName: 'Options',  render: <FormOptions formF={formF} aircraftList={aircraftList}/>}
     ];
     
     let activeView=views[0].render;
@@ -41,10 +43,12 @@ export default function FormF({formFs, formFsDispatch, aircraftList, id, goHome,
     }
 
     return (<>
-            <Menu tabular attached>
+            <Menu  attached style={{overflowX: 'auto', overflowY:'hidden', touchAction:'pan-x pan-y'}}>
+                
                 {
                     views.map( item => (
                         <Menu.Item
+                            style={{touchAction:'pan-x pan-y'}}
                             key={item.viewName}
                             name={item.viewName}
                             active={activeViewName === item.viewName}

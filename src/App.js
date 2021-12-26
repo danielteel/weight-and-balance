@@ -17,8 +17,9 @@ import itemGroupReducer from './reducers/itemGroupReducer';
 const menuItems=[
     {page:'formfs', title: 'Form Fs'},
     {page:'aircraft', title:'Aircraft'},
-    {page:'standardkit', title:'Stock Kit'},
-    {page:'standardcargo', title:'Stock Cargo'}
+    {page:'standardkit', title:'Std Kit'},
+    {page:'standardcargo', title:'Std Cargo'},
+    {page:'options', title:'Options'}
 ]
 
 
@@ -56,8 +57,7 @@ function App() {
                 <Header as='h1' textAlign="center">WAB</Header>
                 <Header as='h6' textAlign='center' style={{color:'#00000033'}}>Reference Use Only</Header>
             </Segment>
-            <WABMenu menuItems={menuItems} selectedMenu={selectedMenu} selectedMenuDispatch={selectedMenuDispatch}/>
-            <FormFMenu menuItems={menuItems} selectedMenu={selectedMenu} selectedMenuDispatch={selectedMenuDispatch} formFs={formFs} formFsDispatch={formFsDispatch}/>
+            <WABMenu menuItems={menuItems} selectedMenu={selectedMenu} selectedMenuDispatch={selectedMenuDispatch} formFs={formFs} formFsDispatch={formFsDispatch}/>
             <Segment attached="bottom" secondary style={{alignItems:'center', display:'flex', flexDirection:'column'}}>
                 {pageToShow}
             </Segment>

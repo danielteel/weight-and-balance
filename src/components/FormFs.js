@@ -42,7 +42,7 @@ export default function FormFs({formFs, formFsDispatch, selectedMenuDispatch, ai
                         <Table.HeaderCell collapsing></Table.HeaderCell>
                         <Table.HeaderCell>Mission</Table.HeaderCell>
                         <Table.HeaderCell>Tail</Table.HeaderCell>
-                        <Table.HeaderCell>Created</Table.HeaderCell>
+                        <Table.HeaderCell>Date</Table.HeaderCell>
                         <Table.HeaderCell collapsing></Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
@@ -72,7 +72,7 @@ export default function FormFs({formFs, formFsDispatch, selectedMenuDispatch, ai
                                             {aircraftList?.find( ac=> ac.id===formF.aircraft )?.tail}
                                         </Table.Cell>
                                         <Table.Cell>
-                                            {formF.created}
+                                            {new Date(formF.date).toDateString()}
                                         </Table.Cell>
                                         <Table.Cell>
                                             <Button floated='right' icon='minus' negative size='mini' onClick={(e)=>{
