@@ -43,19 +43,12 @@ function blankFormF(){
         to: "",
         from: "",
         pilot: "",
+        homeStation: "",
         mission: "TRAINING",
-
-        aircraft: null,
-
         crew:{
             weight: 660,
             moment: 157.5
-        },
-
-        kit:[],
-
-        cargo:[],
-
+        },        
         fuel:{
             weight: 0,
             fwdMATInstalled: false,
@@ -63,8 +56,16 @@ function blankFormF(){
             taxiTakeOffFuelBurn: 500,
             landingFuel: 1500
         },
-
         remarks: defRemarks,
+
+        aircraft: null,
+
+
+        kit:[],
+
+        cargo:[],
+
+
         //Open and view are for saving state of if the formf is open for editing and what screen editing is happening on
         open: false,
         view: null,

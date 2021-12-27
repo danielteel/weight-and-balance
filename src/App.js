@@ -4,9 +4,9 @@ import { useStoredReducer } from '@dteel/use-stored-reducer';
 import WABMenu from './components/WABMenu';
 import FormF from './components/FormF';
 import FormFs from './components/FormFs';
-import FormFMenu from './components/FormFMenu';
 import Aircraft from './components/Aircraft';
 import ItemGroup from './components/ItemGroup';
+import Options from './components/Options';
 
 import formFsReducer from './reducers/formFsReducer';
 import aircraftReducer from './reducers/aircraftReducer';
@@ -19,7 +19,7 @@ const menuItems=[
     {page:'aircraft', title:'Aircraft'},
     {page:'standardkit', title:'Std Kit'},
     {page:'standardcargo', title:'Std Cargo'},
-    {page:'options', title:'Options'}
+    {page:'options', title:'Options'},
 ]
 
 
@@ -47,6 +47,8 @@ function App() {
         pageToShow=<ItemGroup items={kit} itemsDispatch={kitDispatch} title='Kit Presets'/>
     }else if (selectedMenu?.page==='standardcargo'){
         pageToShow=<ItemGroup items={cargo} itemsDispatch={cargoDispatch} title='Cargo Presets'/>
+    }else if (selectedMenu?.page==='options'){
+        pageToShow=<Options formFsDispatch={formFsDispatch} aircraftDispatch={aircraftDispatch} aircraftList={aircraft} selectedMenuDispatch={selectedMenuDispatch}/>
     }else{
         selectedMenuDispatch('formfs');
     }

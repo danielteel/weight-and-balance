@@ -1,16 +1,41 @@
 import {Segment, Button, Modal, Header, Loader} from 'semantic-ui-react';
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
+
+
+function packageFormF(formF, aircraftList){
+    if (!formF) return null;
+
+    const aircraft = aircraftList.find( ac => ac.id === formF.aircraft );
+    if (aircraft===undefined) aircraft=null;
+
+    const packaged = {
+        created: formF.created,
+        date: formF.date,
+        to: formF.to,
+        from: formF.to,
+        pilot: formF.pilot,
+        mission: formF.mission,
+        homeStation: formF.homeStation,
+        crew: formF.crew,
+        fuel: formF.fuel,
+        remarks: formF.remarks,
+
+        aircraft: aircraft,
+        kit: formF.kit,
+        cargo: formF.cargo,
+    };
+    return packaged;
+}
 
 export default function FormOptions({formF, aircraftList}){
     const [shareCode, setShareCode] = useState(null);
     if (!formF) return 'undefined formf';
 
-    const aircraft = aircraftList.find( ac => ac.id === formF.aircraft );
-    if (aircraft===undefined) aircraft=null;
 
 
     return (
-        <Segment secondary style={{width:'100%', maxWidth:'400px'}}>
+        <Segment secondary style={{width:'100%', maxWidth:'400px', textAlign:'center'}}>
+            <Header>Options</Header>
             <Modal open={shareCode!==null} size='tiny' onClose={()=>setShareCode(null)}>
                 <Modal.Content>
                     <Modal.Description>
@@ -19,7 +44,7 @@ export default function FormOptions({formF, aircraftList}){
                                 <Loader active inline='centered' />
                             ):(
                                 (shareCode==='error')?(
-                                    <Header textAlign='center'>Error uploading form, check airplane mode</Header>
+                                    <Header textAlign='center'>Error uploading form</Header>
                                 ):(
                                     <Header style={{fontFamily:'consolas', textAlign:'center'}}>Share code is: {shareCode}</Header>
                                 )
@@ -36,7 +61,7 @@ export default function FormOptions({formF, aircraftList}){
             <Button onClick={async ()=>{
                 setShareCode('loading');
                 try {
-                    const response = await fetch('http://192.168.1.14:3001/form', {
+                    const response = await fetch('https://zptr.net/form', {
                         mode: 'cors',
                         method: 'POST',
                         headers: {
@@ -44,21 +69,21 @@ export default function FormOptions({formF, aircraftList}){
                         },
                         body: JSON.stringify({
                             id: 'cv22',
-                            package: formF
+                            package: packageFormF(formF, aircraftList)
                         })
                     })
                     if (!response.ok){
-                        setShareCode('error uploading');
+                        setShareCode('error');
                     }else{
                         const result = await response.json();
                         if (result.error){
-                            setShareCode('error uploading');
+                            setShareCode('error');
                         }else{
                             setShareCode(result.id+' '+result.pass);
                         }
                     }
                 } catch (e){
-                    setShareCode('error uploading');
+                    setShareCode('error');
                 }
                 
             }}>Share</Button>
