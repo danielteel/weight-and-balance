@@ -118,7 +118,14 @@ export default function ViewForm({formF, aircraftList}){
                     {
                         formF.remarks?.map( remark => (
                             <div key={remark.id} className='wab pad'>
-                                <div className='wab pad remark'>{runCode(remark.code, remarksExterns)}</div>
+                                <div className='wab pad remark'>
+                                    {
+                                        remark.isCode?
+                                            runCode(remark.code, remarksExterns)
+                                        :
+                                            remark.code
+                                    }
+                                </div>
                             </div>
                         ))
                     }

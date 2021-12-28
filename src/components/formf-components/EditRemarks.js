@@ -26,20 +26,43 @@ export default function EditRemarks({formF, mergeProps, aircraftList}){
                 remarks.map( (remark, index) => {
                     return (
                         <Segment>
+                            
+                            <Checkbox toggle label="Is code" checked={remark.isCode} onClick={()=>{
+                                const remarksCopy = formF.remarks;
+                                remarksCopy[index].isCode = !remarksCopy[index].isCode;
+                                mergeProps({remarks: remarksCopy});
+                            }}/>
                             {
-                                editEnabled?
-                                    <TextareaAutosize spellCheck="false" autoCorrect="false" autoComplete="false" minRows={3} key={remark.id} style={{resize:'vertical', width: '100%'}} value={remark.code} onChange={(e)=>{
+                                remark.isCode ?
+                                    editEnabled?
+                                        <TextareaAutosize spellCheck="false" autoCorrect="false" autoComplete="false" minRows={3} key={remark.id} style={{resize:'vertical', width: '100%', marginTop:'5px'}} value={remark.code} onChange={(e)=>{
+                                            const remarksCopy = formF.remarks;
+                                            remarksCopy[index].code = e.target.value;
+                                            mergeProps({remarks: remarksCopy});
+                                        }}/>
+                                    :
+                                        <Message size="mini" className="wab-code-message">
+                                            {markUpScript(remark.code, externKeywords)}
+                                        </Message>
+                                :
+                                    <TextareaAutosize spellCheck="false" autoCorrect="false" autoComplete="false" minRows={3} key={remark.id} style={{resize:'vertical', width: '100%', marginTop:'5px'}} value={remark.code} onChange={(e)=>{
                                         const remarksCopy = formF.remarks;
                                         remarksCopy[index].code = e.target.value;
                                         mergeProps({remarks: remarksCopy});
                                     }}/>
-                                :
-                                    <Message size="mini" className="wab-code-message">
-                                        {markUpScript(remark.code, externKeywords)}
-                                    </Message>
                             }
                             <div style={{display:'flex', alignItems:'center'}}>
-                                <div style={{flexGrow:1}}>Output: <pre>{runCode(remark.code, externs)}</pre></div>
+                                <div style={{flexGrow:1}}>
+                                    Output:
+                                    <pre>
+                                        {
+                                            remark.isCode?
+                                                runCode(remark.code, externs)
+                                            :
+                                                remark.code
+                                        }
+                                    </pre>
+                                </div>
                                 <Button icon='delete' size='mini' negative onClick={()=>mergeProps({remarks: remarks.filter((rem, i)=> index!==i)})}/>
                             </div>
                         </Segment>
@@ -47,7 +70,7 @@ export default function EditRemarks({formF, mergeProps, aircraftList}){
                 })
             }
             <Button icon='add' labelPosition="left" positive content='New remark' onClick={()=>{
-                mergeProps({remarks: [...remarks, {id: getUniqueId(formF.remarks, 'id'), code: '//code'}]})}
+                mergeProps({remarks: [...remarks, {id: getUniqueId(formF.remarks, 'id'), code: 'im a remark', isCode: false}]})}
             }/>
         </Segment>
     )

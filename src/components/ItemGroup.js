@@ -50,7 +50,7 @@ export default function ItemGroup({items, itemsDispatch, title, importList}){
                                 <Button.Group vertical>
                                     <Button icon='add' labelPosition='left' positive size='small' content='New'  onClick={()=>itemsDispatch('create', null)}/>
                                     {
-                                        importList?.length ?
+                                        importList ?
                                             <Button icon='download' labelPosition='left' size='small' content='Import' onClick={()=>setImportIsOpen(true)}/>
                                         :
                                             null

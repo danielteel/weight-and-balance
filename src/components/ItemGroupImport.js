@@ -43,24 +43,29 @@ export default function ItemGroupImport({open, title, onAddItem, onClose, import
                     </Table.Header>
                     <Table.Body>
                         {
-                            itemsToRender.map( item => (
-                                !item.disabled?
+                            itemsToRender.length ?
+                                itemsToRender.map( item => (
+                                    !item.disabled?
+                                        <Table.Row>
+                                            <Table.Cell><Button size='mini' icon='add' positive onClick={()=>onAddItem(item)}/></Table.Cell>
+                                            <Table.Cell>{item.name}</Table.Cell>
+                                            <Table.Cell>{formatWeight(item.weight)}</Table.Cell>
+                                            <Table.Cell>{formatMoment(item.moment)}</Table.Cell>
+                                            <Table.Cell>{formatArm(item.arm)}</Table.Cell>
+                                        </Table.Row>
+                                    :
+                                        <Table.Row disabled>
+                                            <Table.Cell><Button size='mini' icon='check'/></Table.Cell>
+                                            <Table.Cell>{item.name}</Table.Cell>
+                                            <Table.Cell>{formatWeight(item.weight)}</Table.Cell>
+                                            <Table.Cell>{formatMoment(item.moment)}</Table.Cell>
+                                            <Table.Cell>{formatArm(item.arm)}</Table.Cell>
+                                        </Table.Row>
+                                ))
+                            :
                                     <Table.Row>
-                                        <Table.Cell><Button size='mini' icon='add' positive onClick={()=>onAddItem(item)}/></Table.Cell>
-                                        <Table.Cell>{item.name}</Table.Cell>
-                                        <Table.Cell>{formatWeight(item.weight)}</Table.Cell>
-                                        <Table.Cell>{formatMoment(item.moment)}</Table.Cell>
-                                        <Table.Cell>{formatArm(item.arm)}</Table.Cell>
+                                        <Table.Cell colSpan='5' textAlign='center'>no items</Table.Cell>
                                     </Table.Row>
-                                :
-                                    <Table.Row disabled>
-                                        <Table.Cell><Button size='mini' icon='check'/></Table.Cell>
-                                        <Table.Cell>{item.name}</Table.Cell>
-                                        <Table.Cell>{formatWeight(item.weight)}</Table.Cell>
-                                        <Table.Cell>{formatMoment(item.moment)}</Table.Cell>
-                                        <Table.Cell>{formatArm(item.arm)}</Table.Cell>
-                                    </Table.Row>
-                            ))
                         }
                     </Table.Body>
                 </Table>
