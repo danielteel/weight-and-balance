@@ -10,6 +10,7 @@ import './formf-components/formf.css';
 
 export default function FormF({formFs, formFsDispatch, aircraftList, id, goHome, standardKit, standardCargo}){
     const formF = formFs?.find( form => form.id===id );
+    if (!Array.isArray(aircraftList)) aircraftList=[];
 
     if (!formF){
         goHome();

@@ -4,6 +4,7 @@ import TouchInput from "@dteel/touch-input";
 
 import { formatWeight } from "../../common";
 import { maxFuel } from '../../fuel';
+import UploadButton from "../FetchButton";
 
 export default function EditFuel({formF, mergeProps}){
 

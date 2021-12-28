@@ -48,7 +48,7 @@ function App() {
     }else if (selectedMenu?.page==='standardcargo'){
         pageToShow=<ItemGroup items={cargo} itemsDispatch={cargoDispatch} title='Cargo Presets'/>
     }else if (selectedMenu?.page==='options'){
-        pageToShow=<Options formFsDispatch={formFsDispatch} aircraftDispatch={aircraftDispatch} aircraftList={aircraft} selectedMenuDispatch={selectedMenuDispatch}/>
+        pageToShow=<Options formFs={formFs} kit={kit} cargo={cargo} formFsDispatch={formFsDispatch} aircraftDispatch={aircraftDispatch} aircraftList={aircraft} selectedMenuDispatch={selectedMenuDispatch}/>
     }else{
         selectedMenuDispatch('formfs');
     }

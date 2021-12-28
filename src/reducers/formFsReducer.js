@@ -39,6 +39,7 @@ exit output;`
 
 function blankFormF(){
     return {
+        type:'formf',
         created: (new Date()).toDateString(),
         date: new Date(),
         to: "",
@@ -49,7 +50,7 @@ function blankFormF(){
         crew:{
             weight: 660,
             moment: 157.5
-        },        
+        },
         fuel:{
             weight: 0,
             fwdMATInstalled: false,
@@ -61,11 +62,9 @@ function blankFormF(){
 
         aircraft: null,
 
-
         kit:[],
 
         cargo:[],
-
 
         //Open and view are for saving state of if the formf is open for editing and what screen editing is happening on
         open: false,
