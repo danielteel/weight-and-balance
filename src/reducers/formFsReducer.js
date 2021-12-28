@@ -3,6 +3,7 @@ import { getUniqueId, isGoodObject } from "../common";
 const defRemarks=[
     {
       "id": 0,
+      "isCode": true,
       "code":
 `//ACFT INIT
 string output=newline+"ACFT INIT: "+string(floor(basic_weight+0.5))+" / "+string(floor(calcArm(basic_weight, basic_moment)+0.5))+newline;
