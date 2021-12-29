@@ -1,12 +1,20 @@
 import { useState } from "react";
 import { Button, Table, Icon } from "semantic-ui-react";
 
+import { useSorted } from '../useSorted';
+
 import ConfirmationModal from "./ConfirmationModal";
 
 
+const sortDetails=[
+    {key: 'mission', type: 'string'},
+    {key: 'aircraft', type: 'string', getter: (formF, acList) => acList?.find(ac => ac.id===formF?.aircraft)?.tail},
+    {key: 'date', type: 'date'}
+];
 
 export default function FormFs({formFs, formFsDispatch, selectedMenuDispatch, aircraftList}){
     const [deleteFormFId, setDeleteFormFId]=useState(null);
+    const [formFsList, sortBy, matchSort] = useSorted(sortDetails, formFs, aircraftList);
 
     const newFormAction = () => {
         formFsDispatch('create', null, (newId) => {
@@ -28,7 +36,7 @@ export default function FormFs({formFs, formFsDispatch, selectedMenuDispatch, ai
                                 }}
             />
 
-            <Table selectable={formFs?.length!==0} unstackable style={{maxWidth: '550px'}}>
+            <Table selectable={formFsList?.length!==0} unstackable style={{maxWidth: '550px'}} sortable>
                 <Table.Header className='stickyheader'>
                     <Table.Row>
                         <Table.HeaderCell colSpan='5'>
@@ -40,17 +48,20 @@ export default function FormFs({formFs, formFsDispatch, selectedMenuDispatch, ai
                     </Table.Row>
                     <Table.Row>
                         <Table.HeaderCell collapsing></Table.HeaderCell>
-                        <Table.HeaderCell>Mission</Table.HeaderCell>
-                        <Table.HeaderCell>Tail</Table.HeaderCell>
-                        <Table.HeaderCell>Date</Table.HeaderCell>
+                        <Table.HeaderCell sorted={matchSort('mission')} onClick={()=>sortBy('mission')}>Mission</Table.HeaderCell>
+                        <Table.HeaderCell sorted={matchSort('aircraft')} onClick={()=>sortBy('aircraft')}>Tail</Table.HeaderCell>
+                        <Table.HeaderCell sorted={matchSort('date')} onClick={()=>sortBy('date')}>Date</Table.HeaderCell>
                         <Table.HeaderCell collapsing></Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
 
                 <Table.Body>
                     {
-                        formFs?.length?
-                            formFs.map( formF => {
+                        formFsList?.length?
+                            formFsList.map( formF => {
+                                let date=new Date(formF.date);
+                                const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                                let dateStr = date.getDate() + ' ' + months[date.getMonth()] + ' '+date.getFullYear();
                                 return (
                                     <Table.Row key={formF.id+formF.created} onClick={(e)=>{
                                         formFsDispatch('open', formF.id);
@@ -72,7 +83,7 @@ export default function FormFs({formFs, formFsDispatch, selectedMenuDispatch, ai
                                             {aircraftList?.find( ac=> ac.id===formF.aircraft )?.tail}
                                         </Table.Cell>
                                         <Table.Cell>
-                                            {new Date(formF.date).toDateString()}
+                                            {dateStr}
                                         </Table.Cell>
                                         <Table.Cell>
                                             <Button floated='right' icon='minus' negative size='mini' onClick={(e)=>{

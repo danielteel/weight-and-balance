@@ -4,14 +4,21 @@ import { Table, Input, Button } from 'semantic-ui-react';
 import {useState} from 'react';
 
 import ConfirmationModal from './ConfirmationModal';
+import { useSorted } from '../useSorted';
 import { calcArm } from '../common';
 
 const noPadCell={padding:'1px', border:'none'};
 const deleteCell={padding:'0px 4px 0px 0px', border:'none'};
 const inputStyle={style:{paddingLeft:'5px', paddingRight:'5px'}};
 
+const sortDetails=[
+    {key: 'tail', type: 'string'},
+    {key: 'weight', type: 'number'},
+    {key: 'moment', type: 'number'},
+];
 
 export default function Aircraft({aircraft, aircraftDispatch}){
+    const [aircraftList, sortBy, matchSort] = useSorted(sortDetails, aircraft);
     const [deleteAircraftId, setDeleteAircraftId]=useState(null);
  
     return (
@@ -26,7 +33,7 @@ export default function Aircraft({aircraft, aircraftDispatch}){
                             setDeleteAircraftId(null)
                         }}
             />
-            <Table unstackable style={{maxWidth: '550px'}}>
+            <Table unstackable sortable style={{maxWidth: '550px'}}>
                 <Table.Header className='stickyheader'>
                     <Table.Row>
                         <Table.HeaderCell colSpan='5'>
@@ -37,17 +44,17 @@ export default function Aircraft({aircraft, aircraftDispatch}){
                         </Table.HeaderCell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.HeaderCell width={6}>Tail</Table.HeaderCell>
-                        <Table.HeaderCell width={4}>Weight</Table.HeaderCell>
-                        <Table.HeaderCell width={4}>Moment</Table.HeaderCell>
-                        <Table.HeaderCell width={1}>Arm</Table.HeaderCell>
-                        <Table.HeaderCell collapsing width={1}></Table.HeaderCell>
+                        <Table.HeaderCell width={6} sorted={matchSort('tail')}   onClick={()=>sortBy('tail')}>Tail</Table.HeaderCell>
+                        <Table.HeaderCell width={4} sorted={matchSort('weight')} onClick={()=>sortBy('weight')}>Weight</Table.HeaderCell>
+                        <Table.HeaderCell width={4} sorted={matchSort('moment')} onClick={()=>sortBy('moment')}>Moment</Table.HeaderCell>
+                        <Table.HeaderCell width={1} onClick={()=>sortBy(null)}>Arm</Table.HeaderCell>
+                        <Table.HeaderCell collapsing width={1} onClick={()=>sortBy(null)}></Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
                     {
-                        aircraft?.length ?
-                            aircraft.map( ac => (
+                        aircraftList?.length ?
+                            aircraftList.map( ac => (
                                 <Table.Row key={ac.id}>
                                     <Table.Cell style={noPadCell}>
                                         <TouchInput as={Input} value={ac.tail} onChange={(v)=>aircraftDispatch('update', {...ac, tail: v})} fluid input={inputStyle}/>

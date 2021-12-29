@@ -3,11 +3,12 @@ import TouchInput from '@dteel/touch-input'
 import { Table, Input, Button } from 'semantic-ui-react';
 import {useState} from 'react';
 
+import {useSorted} from '../useSorted';
+
 import ItemGroupImport from './ItemGroupImport';
 import ConfirmationModal from './ConfirmationModal';
 
 import { calcArm, calcMoment, formatWeight, formatMoment } from '../common';
-import FetchButton from './FetchButton';
 
 
 const noPadCell={padding:'1px', border:'none'};
@@ -16,19 +17,29 @@ const inputStyle={style:{paddingLeft:'5px', paddingRight:'5px'}};
 
 
 
+const sortDetails=[
+    {key: 'name', type: 'string'},
+    {key: 'weight', type: 'number'},
+    {key: 'moment', type: 'number'},
+    {key: 'arm', type: 'number'}
+];
+
 export default function ItemGroup({items, itemsDispatch, title, importList}){
     const [deleteItemId, setDeleteItemId] = useState(null);
     const [importIsOpen, setImportIsOpen] = useState(false);
+    const [itemList, sortBy, matchSort] = useSorted(sortDetails, items);
+
 
     let weightTotal=0, momentTotal=0, armTotal;
 
-    items?.forEach( item => {
+    itemList?.forEach( item => {
         weightTotal+=Number(item.weight);
         momentTotal+=Number(item.moment);
     })
     weightTotal=formatWeight(weightTotal);
     momentTotal=formatMoment(momentTotal);
     armTotal=calcArm(weightTotal, momentTotal);
+
 
     return (
         <>
@@ -42,8 +53,8 @@ export default function ItemGroup({items, itemsDispatch, title, importList}){
                             setDeleteItemId(null);
                         }}
             />
-            <ItemGroupImport open={importIsOpen} title={title} onAddItem={(item)=>itemsDispatch('create', item)} onClose={()=>setImportIsOpen(false)} importList={importList} alreadyHaveList={items}/>
-            <Table unstackable style={{maxWidth: '550px'}}>
+            <ItemGroupImport open={importIsOpen} title={title} onAddItem={(item)=>itemsDispatch('create', item)} onClose={()=>setImportIsOpen(false)} importList={importList} alreadyHaveList={itemList}/>
+            <Table unstackable style={{maxWidth: '550px'}} sortable>
                 <Table.Header className='stickyheader'>
                     <Table.Row>
                         <Table.HeaderCell colSpan='5'>
@@ -62,17 +73,17 @@ export default function ItemGroup({items, itemsDispatch, title, importList}){
                         </Table.HeaderCell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.HeaderCell width={6}>Name</Table.HeaderCell>
-                        <Table.HeaderCell width={3}>Weight</Table.HeaderCell>
-                        <Table.HeaderCell width={3}>Moment</Table.HeaderCell>
-                        <Table.HeaderCell width={3}>Arm</Table.HeaderCell>
-                        <Table.HeaderCell collapsing width={1}></Table.HeaderCell>
+                        <Table.HeaderCell width={6} sorted={matchSort('name')}   onClick={()=>sortBy('name')}  >Name  </Table.HeaderCell>
+                        <Table.HeaderCell width={3} sorted={matchSort('weight')} onClick={()=>sortBy('weight')}>Weight</Table.HeaderCell>
+                        <Table.HeaderCell width={3} sorted={matchSort('moment')} onClick={()=>sortBy('moment')}>Moment</Table.HeaderCell>
+                        <Table.HeaderCell width={3} sorted={matchSort('arm')}    onClick={()=>sortBy('arm')}   >Arm   </Table.HeaderCell>
+                        <Table.HeaderCell collapsing width={1} onClick={()=>sortBy(null)}></Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
                     {
-                        items?.length ?
-                            items.map( item => (
+                        itemList?.length ?
+                        itemList.map( item => (
                                 <Table.Row key={item.id}>
                                     <Table.Cell style={noPadCell}>
                                         <TouchInput as={Input} value={item.name} onChange={(v)=>itemsDispatch('update', {...item, name: v})} fluid input={inputStyle}/>
@@ -104,7 +115,7 @@ export default function ItemGroup({items, itemsDispatch, title, importList}){
                     }
                 </Table.Body>
                 {
-                    items?.length?
+                    itemList?.length?
                         <Table.Footer>
                             <Table.Row>
                                 <Table.Cell>Total</Table.Cell>
