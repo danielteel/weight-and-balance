@@ -1,14 +1,19 @@
+import { useStoredReducer } from "@dteel/use-stored-reducer";
+
 import { calcArm, getUniqueId, isAboutEquals, isGoodObject } from "../common";
 
 function blankItem(){
     return {name:'', weight: 0, moment: 0, arm: 0};
 }
 
-export default function itemGroupReducer(state, action, payload, callback){
+function itemGroupReducer(state, action, payload, callback){
 
     if (!Array.isArray(state)) state=[];
 
     switch (action){
+        case 'reset':{
+            return [];
+        }
         case 'update':{
             const items=state;
             
@@ -43,3 +48,11 @@ export default function itemGroupReducer(state, action, payload, callback){
             return state;
     }
 }
+
+function useItemGroupReducer(kitOrCargo, hysterisis=1000){
+    const [itemGroup, {current: itemGroupDispatch}] = useStoredReducer('wab-'+kitOrCargo, itemGroupReducer, [], localStorage, hysterisis);
+
+    return [itemGroup, itemGroupDispatch];
+}
+
+export {useItemGroupReducer as default, itemGroupReducer};

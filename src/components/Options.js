@@ -1,9 +1,40 @@
 import { useEffect, useState } from "react";
 import { Form, Header, Segment, Progress, Button } from "semantic-ui-react";
+
+import {flushSaveToStorage} from '@dteel/use-stored-reducer/src/saveToStorage';
+import useFormFsReducer from '../reducers/formFsReducer';
+import useAircraftReducer from '../reducers/aircraftReducer';
+import useSelectedMenuReducer from '../reducers/selectedMenuReducer';
+import useItemGroupReducer from '../reducers/itemGroupReducer';
+
 import { isAboutEquals } from "../common";
 import { getLocalStorageSize, getFreeSpace } from '../getLocalStorageSize'
 import FetchButton from "./FetchButton";
-import {flushSaveToStorage} from '@dteel/use-stored-reducer/src/saveToStorage';
+import ConfirmationModal from './ConfirmationModal';
+
+function downloadedFormF(formf, formFsDispatch, aircraftList, aircraftDispatch, selectedMenuDispatch){
+    if (formf.aircraft!==null){
+        const existingAircraft = aircraftList.find( ac => {
+            return  ( ac.tail.trim().toLowerCase() === formf.aircraft.tail.trim().toLowerCase() &&
+                        isAboutEquals(ac.weight, formf.aircraft.weight, 0.01) && isAboutEquals(ac.moment, formf.aircraft.moment, 0.01) );
+        });
+        if (existingAircraft){
+            formf.aircraft=existingAircraft.id;
+        }else{
+            aircraftDispatch('create', formf.aircraft, (acId) => formf.aircraft=acId);
+        }
+    }
+    let newFormId = null;
+    formFsDispatch('create', formf, (formId) => {
+        newFormId=formId;
+    });
+
+    return <Button onClick={()=>{
+        formFsDispatch('open', newFormId);
+        selectedMenuDispatch('formf', {id: newFormId});
+    }}>open form</Button>
+}
+
 
 function getSpaceUsedByWAB(){
     let spaceUsedByWAB = 0;
@@ -17,11 +48,18 @@ function getSpaceUsedByWAB(){
     return spaceUsedByWAB;
 }
 
-export default function Options({formFsDispatch, formFs, kit, cargo, aircraftList, aircraftDispatch, selectedMenuDispatch}){
+export default function Options(){
+    const [selectedMenu, selectedMenuDispatch] = useSelectedMenuReducer(1000);
+
+    const [formFs, formFsDispatch] = useFormFsReducer(0);
+    const [aircraftList, aircraftDispatch] = useAircraftReducer(0);
+    const [kit, kitDispatch] = useItemGroupReducer('kit', 0);
+    const [cargo, cargoDispatch] = useItemGroupReducer('cargo', 0);
+
     const [getCode, setGetCode] = useState('');
     const [spaceUsedByWAB, setSpaceUsedByWAB] = useState(0);
     const [spaceUsed, setSpaceUsed] = useState(0);
-    const [reCalc, setReCalc] = useState({});
+    const [deleteLocalModal, setDeleteLocalModal] = useState(false);
 
     useEffect( ()=>{
         flushSaveToStorage();
@@ -35,7 +73,7 @@ export default function Options({formFsDispatch, formFs, kit, cargo, aircraftLis
 
         window.addEventListener('storage', storageChanged);
         return ()=>window.removeEventListener('storage', storageChanged);
-    }, [formFs, kit, cargo, aircraftList, reCalc]);
+    }, [formFs, kit, cargo, aircraftList]);
 
     return (
         <>
@@ -62,24 +100,11 @@ export default function Options({formFsDispatch, formFs, kit, cargo, aircraftLis
                             onComplete={(obj)=>{
                                 if (obj){
                                     if (obj.type==='formf'){
-                                        const formf=obj;
-                                        if (formf.aircraft!==null){
-                                            const existingAircraft = aircraftList.find( ac => {
-                                                return  ( ac.tail.trim().toLowerCase() === formf.aircraft.tail.trim().toLowerCase() &&
-                                                            isAboutEquals(ac.weight, formf.aircraft.weight, 0.01) && isAboutEquals(ac.moment, formf.aircraft.moment, 0.01) );
-                                            });
-                                            if (existingAircraft){
-                                                formf.aircraft=existingAircraft.id;
-                                            }else{
-                                                aircraftDispatch('create', formf.aircraft, (acId) => formf.aircraft=acId);
-                                            }
-                                        }
-                                        formFsDispatch('create', formf, (formId) => {
-                                            formFsDispatch('open', formId);
-                                            selectedMenuDispatch('formf', {id: formId});
-                                        });
+                                        return downloadedFormF(obj, formFsDispatch, aircraftList, aircraftDispatch, selectedMenuDispatch);
                                     }else{
+
                                         return new Error('unknown data type "'+obj.type+'"');
+
                                     }
                                 }
                                 return null;
@@ -87,6 +112,9 @@ export default function Options({formFsDispatch, formFs, kit, cargo, aircraftLis
                         />
                     </Form>
                 </Segment>
+
+
+                
                 <Segment secondary>
                     <Header as='h4' textAlign="center">Local Storage</Header>
 
@@ -95,7 +123,6 @@ export default function Options({formFsDispatch, formFs, kit, cargo, aircraftLis
                         total={getLocalStorageSize()}
                         progress='percent'
                         label={'Storage Used: '+Math.ceil(spaceUsed/1024)+' Kb / '+Math.ceil(getLocalStorageSize()/1024)+' Kb'}
-                        color='green'
                     />
   
                     <Progress
@@ -103,10 +130,22 @@ export default function Options({formFsDispatch, formFs, kit, cargo, aircraftLis
                         total={spaceUsed}
                         progress='percent'
                         label={'WABs Useage: '+Math.ceil(spaceUsedByWAB/1024)+' Kb / '+Math.ceil(spaceUsed/1024)+' Kb'}
-                        color='green'
                     />
+                    <ConfirmationModal 
+                        title="Are you sure?"
+                        content="This will erase everything WAB related on your device, are you sure?"
+                        onNo={()=>setDeleteLocalModal(false)} 
+                        onYes={()=>{
+                            formFsDispatch('reset');
+                            kitDispatch('reset');
+                            cargoDispatch('reset');
+                            aircraftDispatch('reset');
 
-                    <Button onClick={()=>{localStorage.clear(); setReCalc({})}}>Clear LocalStorage</Button>
+                            setDeleteLocalModal(false);
+                        }}
+                        isOpen={deleteLocalModal}
+                    />
+                    <Button negative onClick={()=>setDeleteLocalModal(true)}>Clear WAB LocalStorage</Button>
                 </Segment>
             </Segment>
         </>

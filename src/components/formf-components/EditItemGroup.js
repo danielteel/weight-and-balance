@@ -1,5 +1,5 @@
 import ItemGroup from '../ItemGroup';
-import itemGroupReducer from '../../reducers/itemGroupReducer';
+import {itemGroupReducer} from '../../reducers/itemGroupReducer';
 
 
 export default function EditItemGroup({formF, mergeProps, objName, title, presets}){

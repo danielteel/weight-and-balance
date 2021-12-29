@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container, Header, Segment } from 'semantic-ui-react';
-import { useStoredReducer } from '@dteel/use-stored-reducer';
 import WABMenu from './components/WABMenu';
 import FormF from './components/FormF';
 import FormFs from './components/FormFs';
@@ -8,30 +7,30 @@ import Aircraft from './components/Aircraft';
 import ItemGroup from './components/ItemGroup';
 import Options from './components/Options';
 
-import formFsReducer from './reducers/formFsReducer';
-import aircraftReducer from './reducers/aircraftReducer';
-import selectedMenuReducer from './reducers/selectedMenuReducer';
-import itemGroupReducer from './reducers/itemGroupReducer';
+import useFormFsReducer from './reducers/formFsReducer';
+import useAircraftReducer from './reducers/aircraftReducer';
+import useSelectedMenuReducer from './reducers/selectedMenuReducer';
+import useItemGroupReducer from './reducers/itemGroupReducer';
 
 
 const menuItems=[
     {page:'formfs', title: 'Form Fs'},
-    {page:'aircraft', title:'Aircraft'},
-    {page:'standardkit', title:'Std Kit'},
-    {page:'standardcargo', title:'Std Cargo'},
-    {page:'options', title:'Options'},
+    {page:'aircraft', title: 'Aircraft'},
+    {page:'standardkit', title: 'Kit Presets'},
+    {page:'standardcargo', title: 'Cargo Presets'},
+    {page:'options', title: 'Options'},
 ]
 
 
 
 
 function App() {
-    const [selectedMenu, {current: selectedMenuDispatch}] = useStoredReducer('wab-menu', selectedMenuReducer, {page: 'formfs'}, sessionStorage, 1000);
+    const [selectedMenu, selectedMenuDispatch] = useSelectedMenuReducer(1000);
 
-    const [formFs, {current: formFsDispatch}] = useStoredReducer('wab-formfs', formFsReducer, [], localStorage, 1000);
-    const [aircraft, {current: aircraftDispatch}] = useStoredReducer('wab-aircraft', aircraftReducer, [], localStorage, 1000);
-    const [kit, {current: kitDispatch}] = useStoredReducer('wab-kit', itemGroupReducer, [], localStorage, 1000);
-    const [cargo, {current: cargoDispatch}] = useStoredReducer('wab-cargo', itemGroupReducer, [], localStorage, 1000);
+    const [formFs, formFsDispatch] = useFormFsReducer();
+    const [aircraft, aircraftDispatch] = useAircraftReducer(1000);
+    const [kit, kitDispatch] = useItemGroupReducer('kit', 1000);
+    const [cargo, cargoDispatch] = useItemGroupReducer('cargo', 1000);
 
     const goHome = () => selectedMenuDispatch('formfs');
 
@@ -48,7 +47,7 @@ function App() {
     }else if (selectedMenu?.page==='standardcargo'){
         pageToShow=<ItemGroup items={cargo} itemsDispatch={cargoDispatch} title='Cargo Presets'/>
     }else if (selectedMenu?.page==='options'){
-        pageToShow=<Options formFs={formFs} kit={kit} cargo={cargo} formFsDispatch={formFsDispatch} aircraftDispatch={aircraftDispatch} aircraftList={aircraft} selectedMenuDispatch={selectedMenuDispatch}/>
+        pageToShow=<Options/>
     }else{
         selectedMenuDispatch('formfs');
     }

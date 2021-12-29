@@ -1,3 +1,4 @@
+import { useStoredReducer } from "@dteel/use-stored-reducer";
 import { getUniqueId, isGoodObject } from "../common";
 
 const defRemarks=[
@@ -73,11 +74,14 @@ function blankFormF(){
 }
 
 
-export default function formFsReducer(state, action, payload, callback){
+function formFsReducer(state, action, payload, callback){
 
     if (!Array.isArray(state)) state=[];
 
     switch (action){
+        case 'reset':{
+            return [];
+        }
         case 'close':{
             const id=payload;
             const formFs=state;
@@ -123,3 +127,11 @@ export default function formFsReducer(state, action, payload, callback){
             return state;
     }
 }
+
+function useFormFsReducer(hysterisis=1000){
+    const [formFs, {current: formFsDispatch}] = useStoredReducer('wab-formfs', formFsReducer, [], localStorage, hysterisis);
+
+    return [formFs, formFsDispatch];
+}
+
+export {useFormFsReducer as default, formFsReducer};

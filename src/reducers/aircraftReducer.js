@@ -1,14 +1,18 @@
+import { useStoredReducer } from "@dteel/use-stored-reducer";
 import { getUniqueId, isGoodObject } from "../common";
 
 function blankAircraft(){
     return {tail:'', weight: 0, moment: 0};
 }
 
-export default function aircraftReducer(state, action, payload, callback){
+function aircraftReducer(state, action, payload, callback){
 
     if (!Array.isArray(state)) state=[];
 
     switch (action){
+        case 'reset':{
+            return [];
+        }
         case 'update':{
             const aircraft=state;  
             
@@ -38,3 +42,11 @@ export default function aircraftReducer(state, action, payload, callback){
             return state;
     }
 }
+
+function useAircraftReducer(hysterisis=1000){
+    const [aircraftList, {current: aircraftDispatch}] = useStoredReducer('wab-aircraft', aircraftReducer, [], localStorage, hysterisis);
+
+    return [aircraftList, aircraftDispatch];
+}
+
+export {useAircraftReducer as default, aircraftReducer};
