@@ -122,6 +122,7 @@ export default function Options(){
                         value={spaceUsed}
                         total={getLocalStorageSize()}
                         progress='percent'
+                        precision={1}
                         label={'Storage Used: '+Math.ceil(spaceUsed/1024)+' Kb / '+Math.ceil(getLocalStorageSize()/1024)+' Kb'}
                     />
   
@@ -129,6 +130,7 @@ export default function Options(){
                         value={spaceUsedByWAB}
                         total={spaceUsed}
                         progress='percent'
+                        precision={1}
                         label={'WABs Useage: '+Math.ceil(spaceUsedByWAB/1024)+' Kb / '+Math.ceil(spaceUsed/1024)+' Kb'}
                     />
                     <ConfirmationModal 
