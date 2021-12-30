@@ -95,7 +95,7 @@ export default function Options(){
                             label='Download'
                             onFetch={()=>{
                                 const [id, pass] = getCode.trim().toUpperCase().split(' ');
-                                return ['GET', `https://wab.zptr.net/form/${id}/${pass}`];
+                                return ['GET', `https://wab.zptr.net/obj/${id}/${pass}`];
                             }}
                             onComplete={(obj)=>{
                                 if (obj){

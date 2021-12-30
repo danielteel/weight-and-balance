@@ -42,7 +42,7 @@ export default function FormOptions({formF, aircraftList}){
                 icon='upload'
                 onFetch={()=>[
                     'POST',
-                    'https://wab.zptr.net/form',
+                    'https://wab.zptr.net/obj',
                     {'id': 'cv22', 'package': packagedFormF(formF, aircraftList)}
                 ]}
                 onComplete={(retData)=>{
