@@ -1,6 +1,6 @@
-import {Point,Line,LinearChart,ChartInput,ChartConstant} from 'chart-objects';
+import {Point,Line,LinearChart,ChartInput,ChartConstant} from '@dteel/chart-objects';
 
-export default class ChartProject{
+class AplnCGChartProject{
 	constructor(){
 		const O=true;
 		const F=false;
@@ -32,4 +32,11 @@ export default class ChartProject{
 		}
 		return [alerts, notices];
 	};
+}
+
+export default function getForeAftCGLimits(grossWeight){
+	const cp = new AplnCGChartProject();
+	cp.$gross_weight.value=grossWeight;
+	cp.calc();
+	return [cp.$apln_forward_limit.value, cp.$apln_aft_limit.value];
 }
