@@ -8,7 +8,7 @@ import useSelectedMenuReducer from '../reducers/selectedMenuReducer';
 import useItemGroupReducer from '../reducers/itemGroupReducer';
 
 import { isAboutEquals } from "../common";
-import { getLocalStorageSize, getFreeSpace } from '../getLocalStorageSize'
+import { getUsedSpace } from '../getLocalStorageSize'
 import FetchButton from "./FetchButton";
 import ConfirmationModal from './ConfirmationModal';
 
@@ -38,12 +38,15 @@ function downloadedFormF(formf, formFsDispatch, aircraftList, aircraftDispatch, 
 
 function getSpaceUsedByWAB(){
     let spaceUsedByWAB = 0;
-    for (let i = 0; i < localStorage.length; i++){
-        const key=localStorage.key(i);
-        if (key.trim().toLowerCase().startsWith("wab-")){
-            const size=localStorage.getItem(key).length+key.length;
-            spaceUsedByWAB+=size;
-        }   
+    try {
+        for (let i = 0; i < localStorage.length; i++){
+            const key=localStorage.key(i);
+            if (key.trim().toLowerCase().startsWith("wab-")){
+                const size=localStorage.getItem(key).length+key.length;
+                spaceUsedByWAB+=size;
+            }   
+        }
+    } catch (e) {
     }
     return spaceUsedByWAB;
 }
@@ -64,11 +67,11 @@ export default function Options(){
     useEffect( ()=>{
         flushSaveToStorage();
         setSpaceUsedByWAB(getSpaceUsedByWAB());
-        setSpaceUsed(getLocalStorageSize()-getFreeSpace());
+        setSpaceUsed(getUsedSpace());
 
         const storageChanged = () => {
             setSpaceUsedByWAB(getSpaceUsedByWAB());
-            setSpaceUsed(getLocalStorageSize()-getFreeSpace());
+            setSpaceUsed(getUsedSpace());
         };
 
         window.addEventListener('storage', storageChanged);
@@ -118,14 +121,6 @@ export default function Options(){
                 <Segment secondary>
                     <Header as='h4' textAlign="center">Local Storage</Header>
 
-                    <Progress
-                        value={spaceUsed}
-                        total={getLocalStorageSize()}
-                        progress='percent'
-                        precision={1}
-                        label={'Storage Used: '+Math.ceil(spaceUsed/1024)+' Kb / '+Math.ceil(getLocalStorageSize()/1024)+' Kb'}
-                    />
-  
                     <Progress
                         value={spaceUsedByWAB}
                         total={spaceUsed}
